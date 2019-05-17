@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[大话设计模式]]></title>
-    <url>%2F2019%2F05%2F14%2F%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%2F</url>
-    <content type="text"><![CDATA[设计模式的分类 参考：http://www.runoob.com/design-pattern/design-pattern-intro.html 分类 总体来说设计模式分为三大类： 创建型模式，共五种：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式。 结构型模式，共七种：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式。 行为型模式，共十一种：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式。 其实还有两类：并发型模式和线程池模式。 设计模式中英文对照 中文 英文 1.工厂方法模式 Factory Method Pattern 2.抽象工厂模式 Abstract Factory Pattern 3.建造者模式 Builder Pattern 4.原型模式 Prototype Pattern 5.单例模式 Singleton Pattern 6.适配器模式 Adapter Pattern 7.桥梁模式/桥接模式 Bridge Pattern 8.组合模式 Composite Pattern 9.装饰模式 Decorator Pattern 10.门面模式/外观模式 Facade Pattern 11.享元模式 Flyweight Pattern 12.代理模式 Proxy pattern 13.责任链模式 Chain of Responsibility Pattern 14.命令模式 Command Pattern 15.解释器模式 Interpreter Pattern 16.迭代器模式 Iterator Pattern 17.中介者模式 Mediator Pattern 18.备忘录模式 Memento Pattern 19.观察者模式 Observer Pattern 20状态模式 State Pattern 21.策略模式 Strategy Pattern 22.模板方法模式 Template Method Pattern 23.访问者模式 Visitor Pattern]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Hexo入门到进阶]]></title>
     <url>%2F2019%2F05%2F12%2FHexo%20%E5%85%A5%E9%97%A8%2F</url>
     <content type="text"><![CDATA[什么是 Hexo？Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。 官方文档(这里主要记录本人在使用Hexo过程中遇到的问题和解决方案) 基本使用init1$ hexo init [folder] 新建一个网站。如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。 new1$ hexo new [layout] &lt;title&gt; 新建一篇文章。如果没有设置 layout 的话，默认使用 _config.yml 中的 default_layout 参数代替。如果标题包含空格的话，请使用引号括起来。 1$ hexo new "post title with whitespace" generate1$ hexo generate 生成静态文件。 选项 描述 -d, --deploy 文件生成后立即部署网站 -w, --watch 监视文件变动 该命令可以简写为1$ hexo g publish1$ hexo publish [layout] &lt;filename&gt; 发表草稿。 server1$ hexo server 启动服务器。默认情况下，访问网址为： http://localhost:4000/。 选项 描述 -p, --port 重设端口 -s, --static 只使用静态文件 -l, --log 启动日记记录，使用覆盖记录格式 该命令可以简写为1234567$ hexo s`## deploy``` bash$ hexo deploy 部署网站。 参数 描述 -g, --generate 部署之前预先生成静态文件 该命令可以简写为：1$ hexo d render1$ hexo render &lt;file1&gt; [file2] ... 渲染文件。 参数 描述 -o, --output 设置输出路径 migrate1$ hexo migrate &lt;type&gt; 从其他博客系统 迁移内容。 clean1$ hexo clean 清除缓存文件 (db.json) 和已生成的静态文件 (public)。 在某些情况（尤其是更换主题后），如果发现您对站点的更改无论如何也不生效，您可能需要运行该命令。 list1$ hexo list &lt;type&gt; 列出网站资料。 version1$ hexo version 插件Hexo-admin插件介绍hexo-admin 是一个Hexo博客引擎的管理用户界面插件。这个插件最初是作为本地编辑器设计的，在本地运行hexo使用hexo-admin编写文章，然后通过hexo g或hexo d（hexo g是本地渲染，hexo d是将渲染的静态页面发布到GitHub）将生成的静态页面发布到GitHub等静态服务器。如果你使用的是非静态托管服务器，比如自己买的主机搭建的hexo，那么一定要设置hexo-admin 的密码，否则谁都可以编辑你的文章。 插件安装首先进入hexo创建的博客项目的根目录下，执行1234567 npm install --save hexo-admin``` mac可能需要root权限，前面加个sudo 就可以了。如果报错缺少组件，则缺少什么安装什么，npm install 加缺少的组件。运行下列命令启动hexo-admin ：``` bash hexo server -d 打开 http://localhost:4000/admin/ 就可以访问到hexo-admin管理页面了。 密码保护打开setting，点击Setup authentification here输入用户名，密码，密钥，下面会自动生成配置文件，复制加在hexo根目录下的_config.yml中：1234admin: username: username password_hash: be121740bf988b2225a313fa1f107ca1 secret: secret 重启hexo，就可以看到登录页面了 发布文章进入后台之后点击Deploy，里面的Deploy按钮是用来执行发布脚本的，所以我们先在博客根目录下新建个目录admin_script，然后在目录中新建一个脚本hexo-g.sh，里面写下下面代码然后保存， hexo g &amp;&amp; hexo d 然后在_config.yml中的admin下添加 admin: username: username password_hash: be121740bf988b2225a313fa1f107ca1 secret: secret deployCommand: ./admin_script/hexo-g.sh 设置发布执行的脚本，点击Deploy就会执行这个命令并提交到GitHub上。]]></content>
