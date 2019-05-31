@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Kafka安装与入门]]></title>
+    <url>%2F2019%2F05%2F31%2FKafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%85%A5%E9%97%A8%2F</url>
+    <content type="text"><![CDATA[介绍Kafka 是一种高吞吐量的分布式发布订阅消息系统，有如下特性： 通过O(1)的磁盘数据结构提供消息的持久化，这种结构对于即使数以TB的消息存储也能够保持长时间的稳定性能。 高吞吐量 ：即使是非常普通的硬件Kafka也可以支持每秒数百万的消息。 支持通过Kafka服务器和消费机集群来分区消息。 支持Hadoop并行数据加载。 Kafka通过官网发布了最新版本2.0.0 安装 基于Linux和macos操作系统 参考 http://kafka.apache.org/quickstart http://orchome.com/6 Step 1: 下载代码 下载2.2.0版本并解压缩 12$ tar -xzf kafka_2.12-2.2.0.tgz$ cd kafka_2.12-2.2.0 Step 2: 启动服务 运行kafka需要使用Zookeeper，所以你需要先启动Zookeeper，如果你没有Zookeeper，你可以使用kafka自带打包和配置好的Zookeeper。1$ bin/zookeeper-server-start.sh config/zookeeper.properties 现在启动kafka服务1$ bin/kafka-server-start.sh config/server.properties &amp;]]></content>
+      <categories>
+        <category>组件</category>
+      </categories>
+      <tags>
+        <tag>Kafka</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[ElasticSearch安装与入门]]></title>
     <url>%2F2019%2F05%2F31%2FElasticSearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%85%A5%E9%97%A8%2F</url>
     <content type="text"><![CDATA[介绍 ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。 安装ElasticSearch安装 进入官网下载页选择想要安装的版本下载：https://www.elastic.co/downloads/past-releases 解压缩至本地某地址 cd bin 执行命令:./elasticsearch 启动成功 ElasticSearch-head插件安装 （参考：https://blog.csdn.net/mingleizhen/article/details/76084874） 依赖环境：node和npm git clone https://github.com/mobz/elasticsearch-head.git npm install npm run start 修改ElasticSearch配置 在elasticsearch.yml添加如下配置 http.cors.enabled: true http.cors.allow-origin: “* 重启ES 页面访问：http://localhost:9100/ 启动完成 验证 访问：http://localhost:9100/]]></content>
@@ -8,7 +19,7 @@
         <category>组件</category>
       </categories>
       <tags>
-        <tag>组件</tag>
+        <tag>Elastic S e a r ch</tag>
       </tags>
   </entry>
   <entry>
