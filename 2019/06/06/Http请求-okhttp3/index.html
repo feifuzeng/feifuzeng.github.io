@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="简介HTTP是现代应用常用的一种交换数据和媒体的网络方式，高效地使用HTTP能让资源加载更快，节省带宽。OkHttp是一个高效的HTTP客户端，它有以下默认特性：  支持HTTP/2，允许所有同一个主机地址的请求共享同一个socket连接 连接池减少请求延时 透明的GZIP压缩减少响应数据的大小 缓存响应内容，避免一些完全重复的请求当网络出现问题的时候OkHttp依然坚守自己的职责，它会自动恢复一">
-<meta name="keywords" content="http,okhttp3">
+  <meta name="description" content="简介   HTTP是现代应用常用的一种交换数据和媒体的网络方式，高效地使用HTTP能让资源加载更快，节省带宽。OkHttp是一个高效的HTTP客户端，它有以下默认特性：  支持HTTP/2，允许所有同一个主机地址的请求共享同一个socket连接 连接池减少请求延时 透明的GZIP压缩减少响应数据的大小 缓存响应内容，避免一些完全重复的请求  源码：https://github.com/square">
+<meta name="keywords" content="http,okhttp3,开源项目">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Http请求-okhttp3">
 <meta property="og:url" content="http://yoursite.com/2019/06/06/Http请求-okhttp3/index.html">
 <meta property="og:site_name" content="隐逸居">
-<meta property="og:description" content="简介HTTP是现代应用常用的一种交换数据和媒体的网络方式，高效地使用HTTP能让资源加载更快，节省带宽。OkHttp是一个高效的HTTP客户端，它有以下默认特性：  支持HTTP/2，允许所有同一个主机地址的请求共享同一个socket连接 连接池减少请求延时 透明的GZIP压缩减少响应数据的大小 缓存响应内容，避免一些完全重复的请求当网络出现问题的时候OkHttp依然坚守自己的职责，它会自动恢复一">
+<meta property="og:description" content="简介   HTTP是现代应用常用的一种交换数据和媒体的网络方式，高效地使用HTTP能让资源加载更快，节省带宽。OkHttp是一个高效的HTTP客户端，它有以下默认特性：  支持HTTP/2，允许所有同一个主机地址的请求共享同一个socket连接 连接池减少请求延时 透明的GZIP压缩减少响应数据的大小 缓存响应内容，避免一些完全重复的请求  源码：https://github.com/square">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-06T05:41:44.090Z">
+<meta property="og:updated_time" content="2019-06-06T06:00:29.702Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Http请求-okhttp3">
-<meta name="twitter:description" content="简介HTTP是现代应用常用的一种交换数据和媒体的网络方式，高效地使用HTTP能让资源加载更快，节省带宽。OkHttp是一个高效的HTTP客户端，它有以下默认特性：  支持HTTP/2，允许所有同一个主机地址的请求共享同一个socket连接 连接池减少请求延时 透明的GZIP压缩减少响应数据的大小 缓存响应内容，避免一些完全重复的请求当网络出现问题的时候OkHttp依然坚守自己的职责，它会自动恢复一">
+<meta name="twitter:description" content="简介   HTTP是现代应用常用的一种交换数据和媒体的网络方式，高效地使用HTTP能让资源加载更快，节省带宽。OkHttp是一个高效的HTTP客户端，它有以下默认特性：  支持HTTP/2，允许所有同一个主机地址的请求共享同一个socket连接 连接池减少请求延时 透明的GZIP压缩减少响应数据的大小 缓存响应内容，避免一些完全重复的请求  源码：https://github.com/square">
 
 
 
@@ -413,7 +413,7 @@
                 
               
 
-              <time title="创建时间：2019-06-06 11:23:00 / 修改时间：13:41:44" itemprop="dateCreated datePublished" datetime="2019-06-06T11:23:00+08:00">2019-06-06</time>
+              <time title="创建时间：2019-06-06 11:23:00 / 修改时间：14:00:29" itemprop="dateCreated datePublished" datetime="2019-06-06T11:23:00+08:00">2019-06-06</time>
             
 
             
@@ -470,16 +470,14 @@
       
 
       
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>HTTP是现代应用常用的一种交换数据和媒体的网络方式，高效地使用HTTP能让资源加载更快，节省带宽。OkHttp是一个高效的HTTP客户端，它有以下默认特性：</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>   HTTP是现代应用常用的一种交换数据和媒体的网络方式，高效地使用HTTP能让资源加载更快，节省带宽。OkHttp是一个高效的HTTP客户端，它有以下默认特性：</p>
 <ul>
 <li>支持HTTP/2，允许所有同一个主机地址的请求共享同一个socket连接</li>
 <li>连接池减少请求延时</li>
 <li>透明的GZIP压缩减少响应数据的大小</li>
-<li>缓存响应内容，避免一些完全重复的请求<br>当网络出现问题的时候OkHttp依然坚守自己的职责，它会自动恢复一般的连接问题，如果你的服务有多个IP地址，当第一个IP请求失败时，OkHttp会交替尝试你配置的其他IP，OkHttp使用现代TLS技术(SNI, ALPN)初始化新的连接，当握手失败时会回退到TLS 1.0。<blockquote>
-<p>OkHttp 支持 Android 2.3 及以上版本Android平台， 对于 Java, JDK 1.7及以上。</p>
-</blockquote>
-</li>
+<li>缓存响应内容，避免一些完全重复的请求</li>
 </ul>
+<p>源码：<a href="https://github.com/square/okhttp" target="_blank" rel="noopener">https://github.com/square/okhttp</a><br>说明：OkHttp支持Android 2.3及以上版本Android平台,对于Java, JDK1.7及以上。<br>   当网络出现问题的时候OkHttp依然坚守自己的职责，它会自动恢复一般的连接问题，如果你的服务有多个IP地址，当第一个IP请求失败时，OkHttp会交替尝试你配置的其他IP，OkHttp使用现代TLS技术(SNI, ALPN)初始化新的连接，当握手失败时会回退到TLS 1.0。</p>
 <a id="more"></a>
 <h1 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h1><p>引入maven依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.squareup.okhttp3<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>okhttp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.0-RC1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="同步get请求"><a href="#同步get请求" class="headerlink" title="同步get请求"></a>同步get请求</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">doGet</span><span class="params">(String url)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">            .url(url)</span><br><span class="line">            .build();</span><br><span class="line">    <span class="keyword">try</span> (Response response = client.newCall(request).execute()) &#123;</span><br><span class="line">        <span class="keyword">return</span> response.body().string();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -510,6 +508,8 @@
             <a href="/tags/http/" rel="tag"># http</a>
           
             <a href="/tags/okhttp3/" rel="tag"># okhttp3</a>
+          
+            <a href="/tags/开源项目/" rel="tag"># 开源项目</a>
           
         </div>
       
@@ -651,7 +651,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
