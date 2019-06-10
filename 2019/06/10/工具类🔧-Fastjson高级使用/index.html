@@ -96,14 +96,18 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+  <meta name="description" content="fastjson用于将Java Bean序列化为JSON字符串，也可以从JSON字符串反序列化到JavaBean。主要就以下几点做个介绍  SerializerFeature特性的使用 JSONField与JSONType注解的使用 SerializeFilter 泛型反序列化 fastjson各种概念">
+<meta name="keywords" content="fastjson">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工具类🔧-Fastjson进阶使用">
+<meta property="og:url" content="http://yoursite.com/2019/06/10/工具类🔧-Fastjson高级使用/index.html">
 <meta property="og:site_name" content="隐逸居">
+<meta property="og:description" content="fastjson用于将Java Bean序列化为JSON字符串，也可以从JSON字符串反序列化到JavaBean。主要就以下几点做个介绍  SerializerFeature特性的使用 JSONField与JSONType注解的使用 SerializeFilter 泛型反序列化 fastjson各种概念">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-15T08:29:27.601Z">
+<meta property="og:updated_time" content="2019-06-10T09:57:49.850Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="标签">
+<meta name="twitter:title" content="工具类🔧-Fastjson进阶使用">
+<meta name="twitter:description" content="fastjson用于将Java Bean序列化为JSON字符串，也可以从JSON字符串反序列化到JavaBean。主要就以下几点做个介绍  SerializerFeature特性的使用 JSONField与JSONType注解的使用 SerializeFilter 泛型反序列化 fastjson各种概念">
 
 
 
@@ -111,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/tags/">
+  <link rel="canonical" href="http://yoursite.com/2019/06/10/工具类🔧-Fastjson高级使用/">
 
 
 
@@ -121,7 +125,7 @@
   };
 </script>
 
-  <title>标签 | 隐逸居</title>
+  <title>工具类🔧-Fastjson进阶使用 | 隐逸居</title>
   
 
 
@@ -224,7 +228,7 @@
         
         
           
-          <li class="menu-item menu-item-tags menu-item-active">
+          <li class="menu-item menu-item-tags">
 
     
     
@@ -305,28 +309,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -374,92 +356,300 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/工具类🔧-Fastjson高级使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="feifuzeng">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="隐逸居">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">标签
-
-</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
+          <h1 class="post-title" itemprop="name headline">工具类🔧-Fastjson进阶使用
+
               
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-              目前共计 9 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              
-                <a href="/tags/Elastic-S-e-a-r-ch/" style="font-size: 12px; color: #ccc">Elastic S e a r ch</a> <a href="/tags/Hexo/" style="font-size: 12px; color: #ccc">Hexo</a> <a href="/tags/Java并发/" style="font-size: 12px; color: #ccc">Java并发</a> <a href="/tags/Kafka/" style="font-size: 30px; color: #111">Kafka</a> <a href="/tags/fastjson/" style="font-size: 30px; color: #111">fastjson</a> <a href="/tags/http/" style="font-size: 12px; color: #ccc">http</a> <a href="/tags/makedown/" style="font-size: 12px; color: #ccc">makedown</a> <a href="/tags/okhttp3/" style="font-size: 12px; color: #ccc">okhttp3</a> <a href="/tags/开源项目/" style="font-size: 12px; color: #ccc">开源项目</a>
-              
-            </div>
-          </div>
+            
+          </h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-10 17:00:00 / 修改时间：17:57:49" itemprop="dateCreated datePublished" datetime="2019-06-10T17:00:00+08:00">2019-06-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>fastjson用于将Java Bean序列化为JSON字符串，也可以从JSON字符串反序列化到JavaBean。<br>主要就以下几点做个介绍</p>
+<ul>
+<li>SerializerFeature特性的使用</li>
+<li>JSONField与JSONType注解的使用</li>
+<li>SerializeFilter</li>
+<li>泛型反序列化</li>
+<li>fastjson各种概念</li>
+</ul>
+<a id="more"></a>
+<h1 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h1><ul>
+<li><p>通过maven引入相应的json包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.58<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定义一个需要转换所实体类User，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ohaotian.feifz.style.study.utils.fastjson;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> feifz</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 研究fastjson用到的对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@createTime</span> 2019年06月10日 16:36:00</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.annotation.JSONField;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long   id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="meta">@JSONField</span>(format = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>)</span><br><span class="line">    <span class="keyword">private</span> Date   createTime;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>写个简单的测试类用于测试fastjson的序列化与反序列化，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ohaotian.feifz.style.study.utils.fastjson;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> feifz</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> fastjson简单使用</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@createTime</span> 2019年06月10日 16:37:00</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        serialize();</span><br><span class="line">        deserialize();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setId(<span class="number">11L</span>);</span><br><span class="line">        user.setName(<span class="string">"西安"</span>);</span><br><span class="line">        user.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">        String jsonString = JSON.toJSONString(user, <span class="keyword">true</span>);</span><br><span class="line">        System.out.println(jsonString);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deserialize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String jsonString = <span class="string">"&#123;\"createTime\":\"2018-08-17 14:38:38\",\"id\":11,\"name\":\"西安\"&#125;"</span>;</span><br><span class="line">        User user = JSON.parseObject(jsonString, User.class);</span><br><span class="line">        System.out.println(user.getName());</span><br><span class="line">        System.out.println(user.getCreateTime());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="SerializerFeature特性的使用"><a href="#SerializerFeature特性的使用" class="headerlink" title="SerializerFeature特性的使用"></a>SerializerFeature特性的使用</h1><blockquote>
+<p>fastjson通过SerializerFeature对生成的json格式的数据进行一些定制，比如可以输入的格式更好看，使用单引号而非双引号等。例子程序如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ohaotian.feifz.style.study.utils.fastjson;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.serializer.SerializerFeature;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> feifz</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> SerializerFeature特性的使用</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@createTime</span> 2019年06月10日 16:40:00</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializerFeatureTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setId(<span class="number">11L</span>);</span><br><span class="line">        user.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">        String jsonString = JSON.toJSONString(user, SerializerFeature.PrettyFormat,</span><br><span class="line">                SerializerFeature.WriteNullStringAsEmpty, SerializerFeature.UseSingleQuotes);</span><br><span class="line">        System.out.println(jsonString);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>输出的结果如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">'createTime'</span>:<span class="string">'2019-06-10 17:25:34'</span>,</span><br><span class="line">	<span class="string">'id'</span>:11,</span><br><span class="line">	<span class="string">'name'</span>:<span class="string">''</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>SerializerFeature常用属性</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QuoteFieldNames</td>
+<td style="text-align:center">输出key时是否使用双引号,默认为true</td>
+</tr>
+<tr>
+<td>UseSingleQuotes</td>
+<td style="text-align:center">使用单引号而不是双引号,默认为false</td>
+</tr>
+<tr>
+<td>WriteMapNullValue</td>
+<td style="text-align:center">是否输出值为null的字段,默认为false</td>
+</tr>
+<tr>
+<td>WriteEnumUsingToString</td>
+<td style="text-align:center">Enum输出name()或者original,默认为false</td>
+</tr>
+<tr>
+<td>UseISO8601DateFormat</td>
+<td style="text-align:center">Date使用ISO8601格式输出，默认为false</td>
+</tr>
+<tr>
+<td>WriteNullListAsEmpty</td>
+<td style="text-align:center">List字段如果为null,输出为[],而非null</td>
+</tr>
+<tr>
+<td>WriteNullStringAsEmpty</td>
+<td style="text-align:center">字符类型字段如果为null,输出为”“,而非null</td>
+</tr>
+<tr>
+<td>WriteNullNumberAsZero</td>
+<td style="text-align:center">数值字段如果为null,输出为0,而非null</td>
+</tr>
+<tr>
+<td>WriteNullBooleanAsFalse</td>
+<td style="text-align:center">Boolean字段如果为null,输出为false,而非null</td>
+</tr>
+<tr>
+<td>SkipTransientField</td>
+<td style="text-align:center">如果是true，类中的Get方法对应的Field是transient，序列化时将会被忽略。默认为true</td>
+</tr>
+<tr>
+<td>SortField</td>
+<td style="text-align:center">按字段名称排序后输出。默认为false</td>
+</tr>
+<tr>
+<td>WriteTabAsSpecial</td>
+<td style="text-align:center">把\t做转义输出，默认为false不推荐设为true</td>
+</tr>
+<tr>
+<td>PrettyFormat</td>
+<td style="text-align:center">结果是否格式化,默认为false</td>
+</tr>
+<tr>
+<td>WriteClassName</td>
+<td style="text-align:center">序列化时写入类型信息，默认为false。反序列化是需用到</td>
+</tr>
+<tr>
+<td>DisableCircularReferenceDetect</td>
+<td style="text-align:center">消除对同一对象循环引用的问题，默认为false</td>
+</tr>
+<tr>
+<td>WriteSlashAsSpecial</td>
+<td style="text-align:center">对斜杠’/’进行转义</td>
+</tr>
+<tr>
+<td>BrowserCompatible</td>
+<td style="text-align:center">将中文都会序列化为\uXXXX格式，字节数会多一些，但是能兼容IE 6，默认为false</td>
+</tr>
+<tr>
+<td>WriteDateUseDateFormat</td>
+<td style="text-align:center">全局修改日期格式,默认为false。</td>
+</tr>
+<tr>
+<td>DisableCheckSpecialChar</td>
+<td style="text-align:center">一个对象的字符串属性中如果有特殊字符如双引号，将会在转成json时带有反斜杠转移符。如果不需要转义，可以使用这个属性。默认为false</td>
+</tr>
+<tr>
+<td>BeanToArray</td>
+<td style="text-align:center">将对象转为array输出</td>
+</tr>
+</tbody>
+</table>
+<h1 id="JSONField与JSONType注解的使用"><a href="#JSONField与JSONType注解的使用" class="headerlink" title="JSONField与JSONType注解的使用"></a>JSONField与JSONType注解的使用</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"># SerializeFilter</span><br><span class="line">``` java</span><br></pre></td></tr></table></figure>
+<h1 id="泛型反序列化"><a href="#泛型反序列化" class="headerlink" title="泛型反序列化"></a>泛型反序列化</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"># fastjson各种概念</span><br><span class="line">``` java</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://www.jianshu.com/p/eaeaa5dce258" target="_blank" rel="noopener">https://www.jianshu.com/p/eaeaa5dce258</a></li>
+</ul>
+
       
     </div>
-    
-
-
 
     
+
     
     
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fastjson/" rel="tag"># fastjson</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/10/工具类🔧-Fastjson/" rel="next" title="工具类🔧-Fastjson入门使用">
+                <i class="fa fa-chevron-left"></i> 工具类🔧-Fastjson入门使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
 
 
@@ -488,8 +678,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -615,6 +814,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简单使用"><span class="nav-number">1.</span> <span class="nav-text">简单使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SerializerFeature特性的使用"><span class="nav-number">2.</span> <span class="nav-text">SerializerFeature特性的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSONField与JSONType注解的使用"><span class="nav-number">3.</span> <span class="nav-text">JSONField与JSONType注解的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#泛型反序列化"><span class="nav-number">4.</span> <span class="nav-text">泛型反序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
