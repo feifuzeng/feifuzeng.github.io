@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="隐逸居">
 <meta property="og:description" content="简介什么是Fastjson?fastjson是阿里巴巴的开源JSON解析库，它可以解析JSON格式的字符串，支持将Java Bean序列化为JSON字符串，也可以从JSON字符串反序列化到JavaBean。Fastjson是一个Java语言编写的高性能功能完善的JSON库。它采用一种“假定有序快速匹配”的算法，把JSON Parse的性能提升到极致，是目前Java语言中最快的JSON库。Fastj">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-10T09:00:17.358Z">
+<meta property="og:updated_time" content="2019-06-11T06:59:43.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="工具类🔧-Fastjson入门使用">
 <meta name="twitter:description" content="简介什么是Fastjson?fastjson是阿里巴巴的开源JSON解析库，它可以解析JSON格式的字符串，支持将Java Bean序列化为JSON字符串，也可以从JSON字符串反序列化到JavaBean。Fastjson是一个Java语言编写的高性能功能完善的JSON库。它采用一种“假定有序快速匹配”的算法，把JSON Parse的性能提升到极致，是目前Java语言中最快的JSON库。Fastj">
@@ -413,12 +413,24 @@
                 
               
 
-              <time title="创建时间：2019-06-10 14:12:00 / 修改时间：17:00:17" itemprop="dateCreated datePublished" datetime="2019-06-10T14:12:00+08:00">2019-06-10</time>
+              <time title="创建时间：2019-06-10 14:12:00" itemprop="dateCreated datePublished" datetime="2019-06-10T14:12:00+08:00">2019-06-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-11 14:59:43" itemprop="dateModified" datetime="2019-06-11T14:59:43+08:00">2019-06-11</time>
               
             
           </span>
@@ -480,12 +492,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String text = JSON.toJSONString(obj); <span class="comment">//序列化</span></span><br><span class="line">Model vo = JSON.parseObject(<span class="string">"&#123;...&#125;"</span>, Mpode.class); <span class="comment">//反序列化</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>功能完备<br>支持泛型，支持流处理超大文本，支持枚举，支持序列化和反序列化扩展。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2></li>
+</li>
 </ol>
-<ul>
-<li><a href="https://www.w3cschool.cn/fastjson" target="_blank" rel="noopener">https://www.w3cschool.cn/fastjson</a></li>
-<li><a href="https://www.jianshu.com/p/eaeaa5dce258" target="_blank" rel="noopener">https://www.jianshu.com/p/eaeaa5dce258</a></li>
-</ul>
 <h1 id="下载和使用"><a href="#下载和使用" class="headerlink" title="下载和使用"></a>下载和使用</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>你可以在maven中央仓库中直接下载：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://repo1.maven.org/maven2/com/alibaba/fastjson/</span><br></pre></td></tr></table></figure></p>
 <p>或者配置maven依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>x.x.x<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>其中x.x.x是版本号，跟进需要使用特定版本，建议使用最新版本,目前最新版本为1.2.58</p>
@@ -543,7 +551,11 @@
 <li>Fastjson API ParseProcess</li>
 <li>Fastjson API SerializeFilter</li>
 </ul>
-<h1 id="Fastjson-常见问题"><a href="#Fastjson-常见问题" class="headerlink" title="Fastjson 常见问题"></a>Fastjson 常见问题</h1>
+<h1 id="Fastjson-常见问题"><a href="#Fastjson-常见问题" class="headerlink" title="Fastjson 常见问题"></a>Fastjson 常见问题</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://www.w3cschool.cn/fastjson" target="_blank" rel="noopener">https://www.w3cschool.cn/fastjson</a></li>
+<li><a href="https://www.jianshu.com/p/eaeaa5dce258" target="_blank" rel="noopener">https://www.jianshu.com/p/eaeaa5dce258</a></li>
+</ul>
+
       
     </div>
 
@@ -782,7 +794,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Fastjson"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Fastjson?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fastjson使用场景"><span class="nav-number">1.2.</span> <span class="nav-text">Fastjson使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fastjson的优点"><span class="nav-number">1.3.</span> <span class="nav-text">Fastjson的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载和使用"><span class="nav-number">2.</span> <span class="nav-text">下载和使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">2.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单使用"><span class="nav-number">2.2.</span> <span class="nav-text">简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级使用"><span class="nav-number">2.3.</span> <span class="nav-text">高级使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fastjson-定制序列化"><span class="nav-number">2.3.1.</span> <span class="nav-text">Fastjson 定制序列化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fastjson-实例"><span class="nav-number">2.4.</span> <span class="nav-text">Fastjson 实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fastjson-对象或数组转JSON"><span class="nav-number">2.4.1.</span> <span class="nav-text">Fastjson 对象或数组转JSON</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fastjson-Obejct-Map-JSON-String-互转"><span class="nav-number">2.4.2.</span> <span class="nav-text">Fastjson Obejct/Map/JSON/String 互转</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fastjson主要的使用入口"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">fastjson主要的使用入口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有关类库的一些说明"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">有关类库的一些说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例代码"><span class="nav-number">2.4.2.3.</span> <span class="nav-text">示例代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fastjson-API"><span class="nav-number">3.</span> <span class="nav-text">Fastjson API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fastjson-常见问题"><span class="nav-number">4.</span> <span class="nav-text">Fastjson 常见问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Fastjson"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Fastjson?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fastjson使用场景"><span class="nav-number">1.2.</span> <span class="nav-text">Fastjson使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fastjson的优点"><span class="nav-number">1.3.</span> <span class="nav-text">Fastjson的优点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载和使用"><span class="nav-number">2.</span> <span class="nav-text">下载和使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">2.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单使用"><span class="nav-number">2.2.</span> <span class="nav-text">简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级使用"><span class="nav-number">2.3.</span> <span class="nav-text">高级使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fastjson-定制序列化"><span class="nav-number">2.3.1.</span> <span class="nav-text">Fastjson 定制序列化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fastjson-实例"><span class="nav-number">2.4.</span> <span class="nav-text">Fastjson 实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fastjson-对象或数组转JSON"><span class="nav-number">2.4.1.</span> <span class="nav-text">Fastjson 对象或数组转JSON</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fastjson-Obejct-Map-JSON-String-互转"><span class="nav-number">2.4.2.</span> <span class="nav-text">Fastjson Obejct/Map/JSON/String 互转</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fastjson主要的使用入口"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">fastjson主要的使用入口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有关类库的一些说明"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">有关类库的一些说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例代码"><span class="nav-number">2.4.2.3.</span> <span class="nav-text">示例代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fastjson-API"><span class="nav-number">3.</span> <span class="nav-text">Fastjson API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fastjson-常见问题"><span class="nav-number">4.</span> <span class="nav-text">Fastjson 常见问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
