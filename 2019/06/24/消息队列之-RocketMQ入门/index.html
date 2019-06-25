@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="简介 RocketMQ是阿里开源的消息中间件，目前已经捐献个Apache基金会，它是由Java语言开发的，具备高吞吐量、高可用性、适合大规模分布式系统应用等特点，经历过双11的洗礼，实力不容小觑。">
+<meta name="keywords" content="RocketMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息队列之-RocketMQ入门">
+<meta property="og:url" content="http://yoursite.com/2019/06/24/消息队列之-RocketMQ入门/index.html">
+<meta property="og:site_name" content="隐逸居">
+<meta property="og:description" content="简介 RocketMQ是阿里开源的消息中间件，目前已经捐献个Apache基金会，它是由Java语言开发的，具备高吞吐量、高可用性、适合大规模分布式系统应用等特点，经历过双11的洗礼，实力不容小觑。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181123211616907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181123211723750.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181123215307952.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2018112415513262.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181124155200143.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181124164351495.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2018112416441434.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-06-24T07:57:22.463Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="消息队列之-RocketMQ入门">
+<meta name="twitter:description" content="简介 RocketMQ是阿里开源的消息中间件，目前已经捐献个Apache基金会，它是由Java语言开发的，具备高吞吐量、高可用性、适合大规模分布式系统应用等特点，经历过双11的洗礼，实力不容小觑。">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20181123211616907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/06/24/消息队列之-RocketMQ入门/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>消息队列之-RocketMQ入门 | 隐逸居</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">隐逸居</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/24/消息队列之-RocketMQ入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="feifuzeng">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="隐逸居">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">消息队列之-RocketMQ入门
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-24 14:12:00 / 修改时间：15:57:22" itemprop="dateCreated datePublished" datetime="2019-06-24T14:12:00+08:00">2019-06-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/消息队列/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/消息队列/RocketMQ/" itemprop="url" rel="index"><span itemprop="name">RocketMQ</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>RocketMQ是阿里开源的消息中间件，目前已经捐献个Apache基金会，它是由Java语言开发的，具备高吞吐量、高可用性、适合大规模分布式系统应用等特点，经历过双11的洗礼，实力不容小觑。</p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li>官网：<a href="https://rocketmq.apache.org/" target="_blank" rel="noopener">https://rocketmq.apache.org/</a></li>
+<li>快速入门：<a href="https://rocketmq.apache.org/docs/quick-start/" target="_blank" rel="noopener">https://rocketmq.apache.org/docs/quick-start/</a></li>
+<li>阿里云帮助文档：<a href="https://help.aliyun.com/document_detail/29532.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/29532.html</a></li>
+</ul>
+<h1 id="RocketMQ中文文档"><a href="#RocketMQ中文文档" class="headerlink" title="RocketMQ中文文档"></a>RocketMQ中文文档</h1><p>本文分三篇,分别从概念原理，集群搭建，Java接入实战，顺序消息和事务消息讲解<br>本篇内容参照官方文档(Alibaba,apache),原文讲的很简白,本篇引用,不做赘述.</p>
+<h2 id="基本概念及优势"><a href="#基本概念及优势" class="headerlink" title="基本概念及优势"></a>基本概念及优势</h2><p>rocketmq是一个基于发布订阅队列模型的消息中间件,具有高可用,高性能,高实时,天然分布式等特点,(支撑过数次Alibaba双十一),能保证消息严格有序,亿级消息堆积等,设计模型和传统的消息中间件一样,如下(不包含协议)<br><img src="https://img-blog.csdnimg.cn/20181123211616907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70" alt="image"></p>
+<h3 id="物理部署结构"><a href="#物理部署结构" class="headerlink" title="物理部署结构"></a>物理部署结构</h3><p><img src="https://img-blog.csdnimg.cn/20181123211723750.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70" alt="image"><br>由上图结构,rocketmq由四大部分组成(集群模式):<br>NameServer Cluster(名称服务器),<br>Broker Cluster(代理),<br>Producer Cluster(生产者),<br>Consumer Cluster(消费者);<br>它们中的每一个都可以水平扩展，而不会出现单点故障。如上截图所示</p>
+<p><strong>NameServer</strong><br>名称服务器提供轻量级服务发现和路由。每个名称服务器记录完整的路由信息，提供相应的读写服务，支持快速存储扩展</p>
+<p>NameServer是一个几乎无状态的功能齐全的服务器，主要包括两个功能：<br>1.broker 管理，nameserver 接受来自broker集群的注册信息并提供心跳来检测他们是否可用。<br>2.路由管理 每一个nameserver都持有关于broker集群和队列的全部路由信息，用来向客户端提供查询。<br>我们知道 ，rocketMQ客户端（生产者/消费者）会从nameserver查询队列的路由信息.<br>有四种方式能够让客户端湖区到nameserver的地址：<br>(1).通过程序，像这样producer.setNamesrvAddr(“ip:port”)(最实用)<br>(2).java 配置项，这么用rocketmq.namesrv.addr<br>(3).环境变量 NAMESRV_ADDR<br>(4).HTTP 端点<br>其中优先级:程序&gt;java配置&gt;环境变量&gt;Http端点<br><strong>Broker</strong><br>Broker通过提供轻量级主题和队列机制来处理消息存储。它们支持Push和Pull模型，包含容错机制(2个副本或3个副本)，提供了极强的峰值处理里能力和按照时间顺序存储数以百万记的消息存储能力，此外，代理提供了灾难恢复、丰富的度量统计和警报机制，这些都是在传统的消息传递系统中缺乏的</p>
+<p>broker server负责消息的存储传递，消息查询，保证高可用等等。<br>像下图所示，broker server有一些非常重要的子模块：<br>(1)remoting（远程） 模块，broker的入口，处理从客户端发起的请求。<br>(2)client manager（客户端管理） 管理各个客户端（生产者/消费者）还有维护消费者主题订阅。<br>(3)store（存储服务），提供简单的api来在磁盘保持或者查询消息。<br>(4)HA 高可用服务 提供主从broker的数据同步。<br>(5)index(索引服务)为消息建立索引提供消息快速查询。<br><img src="https://img-blog.csdnimg.cn/20181123215307952.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70" alt="image"><br><strong>Producer</strong><br>produce支持分布式部署，分布式的produce通过broker集群提供的各种负载均衡策略将消息发送到broker集群中。发送过程支持快速失败是低延迟的</p>
+<p><strong>Consumer</strong><br>消费者也支持在推送和者拉取模式下分布式部署，支持集群消费和消息广播。提供实时的消息订阅机制，能够满足大多数消费者的需求.</p>
+<h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><p><strong>Topic</strong></p>
+<p>消息主题，一级消息类型，通过 Topic 对消息进行分类。</p>
+<p><strong>Tag</strong></p>
+<p>消息标签，二级消息类型，用来进一步区分某个 Topic 下的消息分类。</p>
+<p><strong>Producer</strong></p>
+<p>消息生产者，也称为消息发布者，负责生产并发送消息。</p>
+<p><strong>Producer ID</strong></p>
+<p>一类 Producer 的标识，这类 Producer 通常生产并发送一类消息，且发送逻辑一致。</p>
+<p><strong>Producer 实例</strong></p>
+<p>Producer 的一个对象实例，不同的 Producer 实例可以运行在不同进程内或者不同机器上。Producer 实例线程安全，可在同一进程内多线程之间共享。</p>
+<p><strong>Consumer</strong></p>
+<p>消息消费者，也称为消息订阅者，负责接收并消费消息。</p>
+<p><strong>Consumer ID</strong></p>
+<p>一类 Consumer 的标识，这类 Consumer 通常接收并消费一类消息，且消费逻辑一致。</p>
+<p><strong>Consumer 实例</strong></p>
+<p>Consumer 的一个对象实例，不同的 Consumer 实例可以运行在不同进程内或者不同机器上。一个 Consumer 实例内配置线程池消费消息。</p>
+<p><strong>集群消费</strong></p>
+<p>一个 Consumer ID 所标识的所有 Consumer 平均分摊消费消息。例如某个 Topic 有 9 条消息，一个 Consumer ID 有 3 个 Consumer 实例，那么在集群消费模式下每个实例平均分摊，只消费其中的 3 条消息。</p>
+<p><strong>广播消费</strong></p>
+<p>一个 Consumer ID 所标识的所有 Consumer 都会各自消费某条消息一次。例如某个 Topic 有 9 条消息，一个 Consumer ID 有 3 个 Consumer 实例，那么在广播消费模式下每个实例都会各自消费 9 条消息。</p>
+<p><strong>定时消息</strong></p>
+<p>Producer 将消息发送到 MQ 服务端，但并不期望这条消息立马投递，而是推迟到在当前时间点之后的某一个时间投递到 Consumer 进行消费，该消息即定时消息。</p>
+<p><strong>延时消息</strong></p>
+<p>Producer 将消息发送到 MQ 服务端，但并不期望这条消息立马投递，而是延迟一定时间后才投递到 Consumer 进行消费，该消息即延时消息。</p>
+<p><strong>事务消息</strong></p>
+<p>MQ 提供类似 X/Open XA 的分布事务功能，通过 MQ 事务消息能达到分布式事务的最终一致。</p>
+<p><strong>顺序消息</strong></p>
+<p>MQ 提供的一种按照顺序进行发布和消费的消息类型, 分为全局顺序消息和分区顺序消息。</p>
+<p><strong>顺序发布</strong></p>
+<p>对于指定的一个 Topic，客户端将按照一定的先后顺序进行发送消息。</p>
+<p><strong>顺序消费</strong></p>
+<p>对于指定的一个 Topic，按照一定的先后顺序进行接收消息，即先发送的消息一定会先被客户端接收到。</p>
+<p><strong>全局顺序消息</strong></p>
+<p>对于指定的一个 Topic，所有消息按照严格的先入先出（FIFO）的顺序进行发布和消费。</p>
+<p><strong>分区顺序消息</strong></p>
+<p>对于指定的一个 Topic，所有消息根据 sharding key 进行区块分区。同一个分区内的消息按照严格的 FIFO 顺序进行发布和消费。Sharding key 是顺序消息中用来区分不同分区的关键字段，和普通消息的 key 是完全不同的概念。</p>
+<p><strong>消息堆积</strong></p>
+<p>Producer 已经将消息发送到 MQ 服务端，但由于 Consumer 消费能力有限，未能在短时间内将所有消息正确消费掉，此时在 MQ 服务端保存着未被消费的消息，该状态即消息堆积。</p>
+<p><strong>消息过滤</strong></p>
+<p>订阅者可以根据消息标签（Tag）对消息进行过滤，确保订阅者最终只接收被过滤后的消息类型。消息过滤在 MQ 服务端完成。</p>
+<p><strong>消息轨迹</strong></p>
+<p>在一条消息从发布者发出到订阅者消费处理过程中，由各个相关节点的时间、地点等数据汇聚而成的完整链路信息。通过消息轨迹，用户能清晰定位消息从发布者发出，经由 MQ 服务端，投递给消息订阅者的完整链路，方便定位排查问题。</p>
+<p><strong>重置消费位点</strong></p>
+<p>以时间轴为坐标，在消息持久化存储的时间范围内（默认3天），重新设置消息订阅者对其订阅 Topic 的消费进度，设置完成后订阅者将接收设定时间点之后由消息发布者发送到 MQ 服务端的消息。</p>
+<h2 id="消息类型"><a href="#消息类型" class="headerlink" title="消息类型"></a>消息类型</h2><h3 id="普通消息"><a href="#普通消息" class="headerlink" title="普通消息"></a>普通消息</h3><p>指没特性的消息,仅仅是个消息,区别于有特性的定时和延时消息、顺序消息和事务消息.<br>发送普通消息有三种方式:</p>
+<ol>
+<li>可靠同步发送<br><strong>原理</strong>：同步发送是指消息发送方发出数据后，会在收到接收方发回响应之后才发下一个数据包的通讯方式。<br><strong>应用场景</strong>：此种方式应用场景非常广泛，例如重要通知邮件、报名短信通知、营销短信系统等。</li>
+<li>可靠异步发送<br><strong>原理</strong>：异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。 MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback）。消息发送方在发送了一条消息后，不需要等待服务器响应即可返回，进行第二条消息发送。发送方通过回调接口接收服务器响应，并对响应结果进行处理。<br><strong>应用场景</strong>：异步发送一般用于链路耗时较长，对 RT 响应时间较为敏感的业务场景，例如用户视频上传后通知启动转码服务，转码完成后通知推送转码结果等。</li>
+<li>单向（Oneway）发送<br><strong>原理</strong>：单向（Oneway）发送特点为发送方只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。 此方式发送消息的过程耗时非常短，一般在微秒级别。<br><strong>应用场景</strong>：适用于某些耗时非常短，但对可靠性要求并不高的场景，例如日志收集。</li>
+</ol>
+<h3 id="定时消息和延时消息"><a href="#定时消息和延时消息" class="headerlink" title="定时消息和延时消息"></a>定时消息和延时消息</h3><p><strong>定时消息</strong>：Producer 将消息发送到 MQ 服务端，但并不期望这条消息立马投递，而是推迟到在当前时间点之后的某一个时间投递到 Consumer 进行消费，该消息即定时消息。<br><strong>延时消息</strong>：Producer 将消息发送到 MQ 服务端，但并不期望这条消息立马投递，而是延迟一定时间后才投递到 Consumer 进行消费，该消息即延时消息。<br>适用场景<br>消息生产和消费有时间窗口要求：比如在电商交易中超时未支付关闭订单的场景，在订单创建时会发送一条 MQ 延时消息。这条消息将会在30分钟以后投递给消费者，消费者收到此消息后需要判断对应的订单是否已完成支付。 如支付未完成，则关闭订单。如已完成支付则忽略。<br>通过消息触发一些定时任务，比如在某一固定时间点向用户发送提醒消息。<br>使用方式<br>定时消息和延时消息的使用在代码编写上存在略微的区别：<br>发送定时消息需要明确指定消息发送时间点之后的某一时间点作为消息投递的时间点。<br>发送延时消息时需要设定一个延时时间长度，消息将从当前发送时间点开始延迟固定时间之后才开始投递。</p>
+<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>顺序消息（FIFO 消息）是 MQ 提供的一种严格按照顺序进行发布和消费的消息类型。 顺序消息指消息发布和消息消费都按顺序进行。<br><strong>顺序发布</strong>：对于指定的一个 Topic，客户端将按照一定的先后顺序发送消息。<br><strong>顺序消费</strong>：对于指定的一个 Topic，按照一定的先后顺序接收消息，即先发送的消息一定会先被客户端接收到。<br><strong>全局顺序</strong> : 对于指定的一个 Topic，所有消息按照严格的先入先出（FIFO）的顺序进行发布和消费。<br><img src="https://img-blog.csdnimg.cn/2018112415513262.png" alt="image"><br>全局顺序适用场景<br>性能要求不高，所有的消息严格按照 FIFO 原则进行消息发布和消费的场景<br><strong>分区顺序</strong><br>对于指定的一个 Topic，所有消息根据 sharding key 进行区块分区。 同一个分区内的消息按照严格的 FIFO 顺序进行发布和消费。 Sharding key 是顺序消息中用来区分不同分区的关键字段，和普通消息的 Key 是完全不同的概念。<br><img src="https://img-blog.csdnimg.cn/20181124155200143.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70" alt="image"><br>适用场景<br>性能要求高，以 sharding key 作为分区字段，在同一个区块中严格的按照 FIFO 原则进行消息发布和消费的场景。</p>
+<p>示例<br>【例一】用户注册需要发送发验证码，以用户 ID 作为 sharding key， 那么同一个用户发送的消息都会按照先后顺序来发布和订阅。</p>
+<p>【例二】电商的订单创建，以订单 ID 作为 sharding key，那么同一个订单相关的创建订单消息、订单支付消息、订单退款消息、订单物流消息都会按照先后顺序来发布和订阅。</p>
+<p>阿里巴巴集团内部电商系统均使用分区顺序消息，既保证业务的顺序，同时又能保证业务的高性能。</p>
+<p>2.4 事务消息<br>常见的分布式事务解决方案有：最终一致性，两阶段／三界阶段提交，TCC，本地消息表等。这些解决方案中，最终一致性的性能最好。可以通过RocketMQ实现最终一致性。<br>RocketMQ事务消息实现方式:<br><strong>事务消息</strong>：MQ 提供类似 X/Open XA 的分布事务功能，通过 MQ 事务消息能达到分布式事务的最终一致。<br><strong>半消息</strong>：暂不能投递的消息，发送方已经将消息成功发送到了 MQ 服务端，但是服务端未收到生产者对该消息的二次确认，此时该消息被标记成“暂不能投递”状态，处于该种状态下的消息即半消息。<br><strong>消息回查</strong>：由于网络闪断、生产者应用重启等原因，导致某条事务消息的二次确认丢失，MQ 服务端通过扫描发现某条消息长期处于“半消息”时，需要主动向消息生产者询问该消息的最终状态（Commit 或是 Rollback），该过程即消息回查。</p>
+<p>这篇讲的挺细致:<a href="https://www.jianshu.com/p/453c6e7ff81c" target="_blank" rel="noopener">分布式开放消息系统(RocketMQ)的原理与实践</a></p>
+<h2 id="消息模型"><a href="#消息模型" class="headerlink" title="消息模型"></a>消息模型</h2><h3 id="集群消费"><a href="#集群消费" class="headerlink" title="集群消费"></a>集群消费</h3><p><strong>集群</strong>： MQ 约定使用相同 Consumer ID 的订阅者属于同一个集群。同一个集群下的订阅者消费逻辑必须完全一致（包括 Tag 的使用），这些订阅者在逻辑上可以认为是一个消费节点。</p>
+<p><strong>集群消费</strong>当使用集群消费模式时，MQ 认为任意一条消息只需要被集群内的任意一个消费者处理即可</p>
+<p><img src="https://img-blog.csdnimg.cn/20181124164351495.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70" alt="消息模型"><br><strong>适用场景和注意事项</strong><br>消费端集群化部署，每条消息只需要被处理一次。<br>由于消费进度在服务端维护，可靠性更高。<br>集群消费模式下，每一条消息都只会被分发到一台机器上处理<br>集群消费模式下，不保证每一次失败重投的消息路由到同一台机器上，因此处理消息时不应该做任何确定性假设。</p>
+<h3 id="广播消费"><a href="#广播消费" class="headerlink" title="广播消费"></a>广播消费</h3><p>当使用广播消费模式时，MQ 会将每条消息推送给集群内所有注册过的客户端，保证消息至少被每台机器消费一次。<br><img src="https://img-blog.csdnimg.cn/2018112416441434.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDUzMzExMQ==,size_16,color_FFFFFF,t_70" alt="消息模型"><br><strong>适用场景和注意事项</strong><br>广播消费模式下<strong>不支持顺序消息</strong>。<br>每条消息都需要被相同逻辑的多台机器处理。<br>消费进度在客户端维护，出现重复的概率稍大于集群模式。<br>广播模式下，MQ 保证每条消息至少被每台客户端消费一次，但是并不会对消费失败的消息进行失败重投，因此业务方需要关注消费失败的情况。<br>广播模式下，客户端第一次启动时默认从最新消息消费。客户端的消费进度是被持久化在客户端本地的隐藏文件中，因此不建议删除该隐藏文件，否则会丢失部分消息。<br>广播模式下，每条消息都会被大量的客户端重复处理，因此推荐尽可能使用集群模式。<br>目前仅 Java 客户端支持广播模式。<br>广播模式下服务端不维护消费进度，所以 MQ 控制台不支持消息堆积查询和堆积报警功能。</p>
+<h3 id="点对点-P2P"><a href="#点对点-P2P" class="headerlink" title="点对点(P2P)"></a>点对点(P2P)</h3><p>点对点（Point to Point, 简称 P2P），顾名思义，是一对一的消息传递模式，即只有一个消息发送者和一个消息接收者。而发布/订阅（Pub/Sub）通常用于一对多或多对多的消息群发场景，拥有一个或多个消息发送者和多个消息接收者。</p>
+<p>在点对点（P2P）模型中，发送者发送消息时已经明确该消息预期的接收方信息，并明确该消息只需要被特定的单个客户端消费。发送者发送消息时通过 Topic 信息直接指定接收者，接收者无需提前进行订阅即可获取该消息。<br>点对点模式可以节省接收方注册订阅关系的成本，而且收发消息的链路有单独的优化，推送延迟更低。<br><strong>P2P和pub/sub的区别</strong>:<br>发送消息时，Pub/Sub 模式需要按照和接收端约定好的 Topic 发送消息，而 P2P 模式下无需事先约定传输消息的 Topic，发送端可以直接按照规范发送消息到目标的接收客户端。<br>接收消息时，Pub/Sub 模式需要按照和发送端约定好的 Topic 提前订阅才能收到消息，而 P2P 模式下无需事先订阅，可以简化接收端的程序逻辑，并节省订阅的成本。</p>
+<h2 id="消息过滤"><a href="#消息过滤" class="headerlink" title="消息过滤"></a>消息过滤</h2><p>消息过滤可在broker和consumer端过滤,一般在consumer上过滤,因为单消息量大时,broker压力过重,影响吞吐量<br>做好过滤得明确为什么要产生这样的消息,明确topic和tag设计的侧重.<br><strong>Topic</strong>：消息主题，通过 Topic 对不同的业务消息进行分类；<br><strong>Tag</strong>：消息标签，用来进一步区分某个 Topic 下的消息分类，MQ 允许消费者按照Tag 对消息进行过滤，确保消费者最终只消费到他关注的消息类型。<br>topic是一级标签,tag是二级标签.<br><strong>使用准则</strong>:<br>1.消息类型是否一致,事务消息,顺序消息等<br>2.业务相关性:没有直接关联的话应用多个topic,例如订单,物流,支付,而男装订单,女装订单则可以使用tag<br>3.消息量级是否相当：A消息是万亿量级,B消息是轻量级但要求实时性高,即便A和B符合准则1,2,也挺该使用不同topic,避免B消息被 “拖累”</p>
+<h2 id="刷盘策略"><a href="#刷盘策略" class="headerlink" title="刷盘策略"></a>刷盘策略</h2><p>先看下影响消息可靠性的几种情况：</p>
+<p>1.Broker正常关闭<br>2.Broker异常Crash<br>3.OS Crash<br>4.机器掉电，但是能立即恢复供电情况。<br>5.机器无法开机（可能是cpu、主板、内存等关键设备损坏）<br>6.磁盘设备损坏。<br>1,2,3,4四种情况都属于硬件资源可立即恢复情况,异步复制的话,可以保证99%的消息不丢失.5,6属于单点故障,同步刷盘可保证所有消息不丢失</p>
+<h3 id="异步复制-异步刷盘"><a href="#异步复制-异步刷盘" class="headerlink" title="异步复制(异步刷盘)"></a>异步复制(异步刷盘)</h3><p>当集群做了主从配置(多主多从),producer向master发送消息,master立马返回,此后根据设置的策略,slave从master上pull消息,进行同步,当master挂了后,slave不会主动提升为master,但仍可订阅</p>
+<h3 id="同步双写"><a href="#同步双写" class="headerlink" title="同步双写"></a>同步双写</h3><p>producer向master发送消息,只有master和slave都写入成功时,才返回.性能较异步略低,适用于对消息严格的业务,比如带money</p>
+<h1 id="安装与使用"><a href="#安装与使用" class="headerlink" title="安装与使用"></a>安装与使用</h1><ol>
+<li>环境要求：<br>64bit OS, Linux/Unix/Mac is recommended;<br>64bit JDK 1.8+;<br>Maven 3.2.x;<br>Git;<br>4g+ free disk for Broker server</li>
+<li><p>下载编译<br>Click <a href="http://rocketmq.apache.org/release_notes/release-notes-4.4.0/" target="_blank" rel="noopener">here</a> to download the 4.4.0 source release.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; unzip rocketmq-all-4.4.0-source-release.zip</span><br><span class="line">&gt; <span class="built_in">cd</span> rocketmq-all-4.4.0/</span><br><span class="line">&gt; mvn -Prelease-all -DskipTests clean install -U</span><br><span class="line">&gt; <span class="built_in">cd</span> distribution/target/apache-rocketmq</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动 Name Server</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; nohup sh bin/mqnamesrv &amp;</span><br><span class="line">&gt; tail -f ~/logs/rocketmqlogs/namesrv.log</span><br><span class="line">The Name Server boot success...</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>⚠️注意事项：若在启动过程中查看日志报错如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Please <span class="built_in">set</span> the JAVA_HOME variable <span class="keyword">in</span> your environment, We need Java(x64)! !!</span><br></pre></td></tr></table></figure></p>
+<p>打开启动脚本runserver.sh以及runbroker.sh文件，发现有如下三行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ ! -e <span class="string">"<span class="variable">$JAVA_HOME</span>/bin/java"</span> ] &amp;&amp; JAVA_HOME=<span class="variable">$HOME</span>/jdk/java</span><br><span class="line">[ ! -e <span class="string">"<span class="variable">$JAVA_HOME</span>/bin/java"</span> ] &amp;&amp; JAVA_HOME=/usr/java</span><br><span class="line">[ ! -e <span class="string">"<span class="variable">$JAVA_HOME</span>/bin/java"</span> ] &amp;&amp; error_exit <span class="string">"Please set the JAVA_HOME variable in your environment, We need java(x64)!"</span></span><br></pre></td></tr></table></figure></p>
+<p>这里默认设置java安装路径为$HOME/jdk/java,其中第二行是阿里巴巴集团内部服务器上的java目录，若报以上错误，将这一行注释掉。然后第一行的JAVA_HOME的值改为自己机器的Java安装目录。然后再次起送mqnameserver以及mqbroker，观察日志发现启动成功：<br>特别是MAC OS</p>
+<blockquote>
+<p>tips:<br>MAC OS reference :<a href="http://xiajunhust.github.io/2016/11/12/RocketMQ%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%B8%80-MAC%E7%B3%BB%E7%BB%9F%E5%8D%95%E6%9C%BA%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" target="_blank" rel="noopener">MAC OS Start</a></p>
+</blockquote>
+<ol start="4">
+<li>启动 Broker<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; nohup sh bin/mqbroker -n localhost:9876 &amp;</span><br><span class="line">&gt; tail -f ~/logs/rocketmqlogs/broker.log </span><br><span class="line">The broker[%s, 172.30.30.233:10911] boot success...</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>启动自动创建topic<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -n localhost:9876 autoCreateTopicEnable=<span class="literal">true</span> &amp;</span><br></pre></td></tr></table></figure></p>
+<ol start="5">
+<li><p>发送消费消息</p>
+</li>
+<li><p>关闭 Servers</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; sh bin/mqshutdown broker</span><br><span class="line">The mqbroker(36695) is running...</span><br><span class="line">Send shutdown request to mqbroker(36695) OK</span><br><span class="line"></span><br><span class="line">&gt; sh bin/mqshutdown namesrv</span><br><span class="line">The mqnamesrv(36664) is running...</span><br><span class="line">Send shutdown request to mqnamesrv(36664) OK</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="RocketMQ插件"><a href="#RocketMQ插件" class="headerlink" title="RocketMQ插件"></a>RocketMQ插件</h1><h2 id="RocketMQ-Console"><a href="#RocketMQ-Console" class="headerlink" title="RocketMQ-Console"></a>RocketMQ-Console</h2><blockquote>
+<p>RocketMQ-Console是RocketMQ项目的扩展插件，是一个图形化管理控制台，提供Broker集群状态查看，Topic管理，Producer、Consumer状态展示，消息查询等常用功能，这个功能在安装好RocketMQ后需要额外单独安装、运行。</p>
+</blockquote>
+<ol>
+<li>进入<a href="https://github.com/apache/rocketmq-externals" target="_blank" rel="noopener">rocketmq-externals</a>项目GitHub地址，如下图，可看到RocketMQ项目的诸多扩展项目，其中就包含我们需要下载的rocketmq-console。</li>
+<li><p>使用git命令下载项目源码，由于我们仅需要rocketmq-console，故下载此项目对应分支即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> -b release-rocketmq-console-1.0.0 https://github.com/apache/rocketmq-externals.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入项目文件夹并按照实际情况修改对应配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server.contextPath=</span><br><span class="line">server.port=8080</span><br><span class="line">#spring.application.index=true</span><br><span class="line">spring.application.name=rocketmq-console</span><br><span class="line">spring.http.encoding.charset=UTF-8</span><br><span class="line">spring.http.encoding.enabled=true</span><br><span class="line">spring.http.encoding.force=true</span><br><span class="line">logging.config=classpath:logback.xml</span><br><span class="line">#if this value is empty,use env value rocketmq.config.namesrvAddr  NAMESRV_ADDR | now, you can set it in ops page.default localhost:9876</span><br><span class="line">rocketmq.config.namesrvAddr=localhost:9876</span><br><span class="line">#if you use rocketmq version &lt; 3.5.8, rocketmq.config.isVIPChannel should be false.default true</span><br><span class="line">rocketmq.config.isVIPChannel=</span><br><span class="line">#rocketmq-console&apos;s data path:dashboard/monitor</span><br><span class="line">rocketmq.config.dataPath=/tmp/rocketmq-console/data</span><br><span class="line">#set it false if you don&apos;t want use dashboard.default true</span><br><span class="line">rocketmq.config.enableDashBoardCollect=true</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Name Server地址默认为空，注释说可以在启动项目后在后台配置，经测试，后台配置切换失败，有报错，所以打包前需修改配置文件明确给出Name Server地址，或者启动服务的时候给出rocketmq.config.namesrvAddr参数值。</p>
+<ol start="4">
+<li><p>将项目打成jar包，并运行jar文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mvn clean package -Dmaven.test.skip=<span class="literal">true</span></span><br><span class="line">$ java -jar target/rocketmq-console-ng-1.0.0.jar</span><br><span class="line"><span class="comment">#如果配置文件没有填写Name Server</span></span><br><span class="line">$ java -jar target/rocketmq-console-ng-1.0.0.jar --rocketmq.config.namesrvAddr=<span class="string">'127.0.0.1:9876'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动成功后，访问地址<a href="http://localhost:8080/rocketmq" target="_blank" rel="noopener">http://localhost:8080/rocketmq</a>, 即可进入管理后台操作。</p>
+</li>
+</ol>
+<h2 id="RocketMQ命令行管理工具-CLI-Admin-Tool"><a href="#RocketMQ命令行管理工具-CLI-Admin-Tool" class="headerlink" title="RocketMQ命令行管理工具(CLI Admin Tool)"></a>RocketMQ命令行管理工具(CLI Admin Tool)</h2><blockquote>
+<p>命令行管理工具（CLI Admin Tool）对RocketMQ集群的管理提供了更多精细化的管理命令，命令行的方式对操作人员的要求稍高一些，当然，掌握了使用方法，就会简单高效很多。命令行管理工具无需额外安装，已经包含在${RocketMQ_HOME}/bin文件夹下面。</p>
+</blockquote>
+<p>上面已经讲过命令行管理工具已经包含在RocketMQ项目中，我们进入项目下的bin文件夹，并执行命令bash mqadmin:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">The most commonly used mqadmin commands are:</span><br><span class="line">   updateTopic          Update or create topic</span><br><span class="line">   deleteTopic          Delete topic from broker and NameServer.</span><br><span class="line">   updateSubGroup       Update or create subscription group</span><br><span class="line">   deleteSubGroup       Delete subscription group from broker.</span><br><span class="line">   updateBrokerConfig   Update broker<span class="string">'s config</span></span><br><span class="line"><span class="string">   updateTopicPerm      Update topic perm</span></span><br><span class="line"><span class="string">   topicRoute           Examine topic route info</span></span><br><span class="line"><span class="string">   topicStatus          Examine topic Status info</span></span><br><span class="line"><span class="string">   topicClusterList     get cluster info for topic</span></span><br><span class="line"><span class="string">   brokerStatus         Fetch broker runtime status data</span></span><br><span class="line"><span class="string">   queryMsgById         Query Message by Id</span></span><br><span class="line"><span class="string">   queryMsgByKey        Query Message by Key</span></span><br><span class="line"><span class="string">   queryMsgByUniqueKey  Query Message by Unique key</span></span><br><span class="line"><span class="string">   queryMsgByOffset     Query Message by offset</span></span><br><span class="line"><span class="string">   printMsg             Print Message Detail</span></span><br><span class="line"><span class="string">   printMsgByQueue      Print Message Detail</span></span><br><span class="line"><span class="string">   sendMsgStatus        send msg to broker.</span></span><br><span class="line"><span class="string">   brokerConsumeStats   Fetch broker consume stats data</span></span><br><span class="line"><span class="string">   producerConnection   Query producer'</span>s socket connection and client version</span><br><span class="line">   consumerConnection   Query consumer<span class="string">'s socket connection, client version and subscription</span></span><br><span class="line"><span class="string">   consumerProgress     Query consumers'</span>s progress, speed</span><br><span class="line">   consumerStatus       Query consumer<span class="string">'s internal data structure</span></span><br><span class="line"><span class="string">   cloneGroupOffset     clone offset from other group.</span></span><br><span class="line"><span class="string">   clusterList          List all of clusters</span></span><br><span class="line"><span class="string">   topicList            Fetch all topic list from name server</span></span><br><span class="line"><span class="string">   updateKvConfig       Create or update KV config.</span></span><br><span class="line"><span class="string">   deleteKvConfig       Delete KV config.</span></span><br><span class="line"><span class="string">   wipeWritePerm        Wipe write perm of broker in all name server</span></span><br><span class="line"><span class="string">   resetOffsetByTime    Reset consumer offset by timestamp(without client restart).</span></span><br><span class="line"><span class="string">   updateOrderConf      Create or update or delete order conf</span></span><br><span class="line"><span class="string">   cleanExpiredCQ       Clean expired ConsumeQueue on broker.</span></span><br><span class="line"><span class="string">   cleanUnusedTopic     Clean unused topic on broker.</span></span><br><span class="line"><span class="string">   startMonitoring      Start Monitoring</span></span><br><span class="line"><span class="string">   statsAll             Topic and Consumer tps stats</span></span><br><span class="line"><span class="string">   allocateMQ           Allocate MQ</span></span><br><span class="line"><span class="string">   checkMsgSendRT       check message send response time</span></span><br><span class="line"><span class="string">   clusterRT            List All clusters Message Send RT</span></span><br><span class="line"><span class="string">   getNamesrvConfig     Get configs of name server.</span></span><br><span class="line"><span class="string">   updateNamesrvConfig  Update configs of name server.</span></span><br><span class="line"><span class="string">   getBrokerConfig      Get broker config by cluster or special broker!</span></span><br><span class="line"><span class="string">   queryCq              Query cq command.</span></span><br><span class="line"><span class="string">   sendMessage          Send a message</span></span><br><span class="line"><span class="string">   consumeMessage       Consume message</span></span><br></pre></td></tr></table></figure></p>
+<p>上面清单中左边为命令名称，右边为命令含义的解释，可以看到，大部分我们常用的功能已包含其中，具体如何使用这些命令，可以通过执行bash mqadmin help <command>来了解细节，我们以常用命令updateTopic为例，执行bash mqadmin help updateTopic,打印如下信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">usage: mqadmin updateTopic [-b &lt;arg&gt;] [-c &lt;arg&gt;] [-h] [-n &lt;arg&gt;] [-o &lt;arg&gt;] [-p &lt;arg&gt;] [-r &lt;arg&gt;] [-s &lt;arg&gt;]</span><br><span class="line">       -t &lt;arg&gt; [-u &lt;arg&gt;] [-w &lt;arg&gt;]</span><br><span class="line"> -b,--brokerAddr &lt;arg&gt;       create topic to <span class="built_in">which</span> broker</span><br><span class="line"> -c,--clusterName &lt;arg&gt;      create topic to <span class="built_in">which</span> cluster</span><br><span class="line"> -h,--<span class="built_in">help</span>                   Print <span class="built_in">help</span></span><br><span class="line"> -n,--namesrvAddr &lt;arg&gt;      Name server address list, eg: 192.168.0.1:9876;192.168.0.2:9876</span><br><span class="line"> -o,--order &lt;arg&gt;            <span class="built_in">set</span> topic<span class="string">'s order(true|false)</span></span><br><span class="line"><span class="string"> -p,--perm &lt;arg&gt;             set topic'</span>s permission(2|4|6), intro[2:W 4:R; 6:RW]</span><br><span class="line"> -r,--readQueueNums &lt;arg&gt;    <span class="built_in">set</span> <span class="built_in">read</span> queue nums</span><br><span class="line"> -s,--hasUnitSub &lt;arg&gt;       has unit sub (<span class="literal">true</span>|<span class="literal">false</span>)</span><br><span class="line"> -t,--topic &lt;arg&gt;            topic name</span><br><span class="line"> -u,--unit &lt;arg&gt;             is unit topic (<span class="literal">true</span>|<span class="literal">false</span>)</span><br><span class="line"> -w,--writeQueueNums &lt;arg&gt;   <span class="built_in">set</span> write queue nums</span><br></pre></td></tr></table></figure></p>
+<p>可以看见，刚才新建的TopicTest以及一些系统默认的topic。如果想学习了解这些命令的源码实现可以点击查看<a href="https://github.com/apache/rocketmq/tree/master/tools" target="_blank" rel="noopener">这里</a>。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>apache:<a href="http://rocketmq.apache.org/docs/motivation/" target="_blank" rel="noopener">http://rocketmq.apache.org/docs/motivation/</a></li>
+<li>alibaba:<a href="https://help.aliyun.com/document_detail/29532.html" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/29532.html</a></li>
+<li><a href="https://my.oschina.net/buru1kan/blog/1814356" target="_blank" rel="noopener">https://my.oschina.net/buru1kan/blog/1814356</a></li>
+<li><a href="http://xiajunhust.github.io/2016/11/12/RocketMQ%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%B8%80-MAC%E7%B3%BB%E7%BB%9F%E5%8D%95%E6%9C%BA%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" target="_blank" rel="noopener">http://xiajunhust.github.io/2016/11/12/RocketMQ%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%B8%80-MAC%E7%B3%BB%E7%BB%9F%E5%8D%95%E6%9C%BA%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RocketMQ/" rel="tag"># RocketMQ</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/20/自定义注解-方法重试/" rel="next" title="自定义注解-方法重试@RetryProcess">
+                <i class="fa fa-chevron-left"></i> 自定义注解-方法重试@RetryProcess
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/24/自定义注解-出参处理-BusiResponseBody/" rel="prev" title="常见spring或第三方内置静态类与工具">
+                常见spring或第三方内置静态类与工具 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">feifuzeng</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/feifuzeng" title="GitHub &rarr; https://github.com/feifuzeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:feifuzeng@gmail.com" title="E-Mail &rarr; mailto:feifuzeng@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RocketMQ中文文档"><span class="nav-number">2.</span> <span class="nav-text">RocketMQ中文文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念及优势"><span class="nav-number">2.1.</span> <span class="nav-text">基本概念及优势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#物理部署结构"><span class="nav-number">2.1.1.</span> <span class="nav-text">物理部署结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#名词解释"><span class="nav-number">2.1.2.</span> <span class="nav-text">名词解释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息类型"><span class="nav-number">2.2.</span> <span class="nav-text">消息类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通消息"><span class="nav-number">2.2.1.</span> <span class="nav-text">普通消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定时消息和延时消息"><span class="nav-number">2.2.2.</span> <span class="nav-text">定时消息和延时消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序消息"><span class="nav-number">2.2.3.</span> <span class="nav-text">顺序消息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息模型"><span class="nav-number">2.3.</span> <span class="nav-text">消息模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集群消费"><span class="nav-number">2.3.1.</span> <span class="nav-text">集群消费</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广播消费"><span class="nav-number">2.3.2.</span> <span class="nav-text">广播消费</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点对点-P2P"><span class="nav-number">2.3.3.</span> <span class="nav-text">点对点(P2P)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息过滤"><span class="nav-number">2.4.</span> <span class="nav-text">消息过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷盘策略"><span class="nav-number">2.5.</span> <span class="nav-text">刷盘策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异步复制-异步刷盘"><span class="nav-number">2.5.1.</span> <span class="nav-text">异步复制(异步刷盘)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同步双写"><span class="nav-number">2.5.2.</span> <span class="nav-text">同步双写</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装与使用"><span class="nav-number">3.</span> <span class="nav-text">安装与使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RocketMQ插件"><span class="nav-number">4.</span> <span class="nav-text">RocketMQ插件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RocketMQ-Console"><span class="nav-number">4.1.</span> <span class="nav-text">RocketMQ-Console</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RocketMQ命令行管理工具-CLI-Admin-Tool"><span class="nav-number">4.2.</span> <span class="nav-text">RocketMQ命令行管理工具(CLI Admin Tool)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">feifuzeng</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
