@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="隐逸居">
 <meta property="og:description" content="简介在日常开发中，可以会用到各种各样的静态变量或工具类，但其实spring源生就提供了很多优秀的静态变量类和工具类，这里简单记录一下。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-24T10:03:03.961Z">
+<meta property="og:updated_time" content="2019-06-26T03:32:23.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常见spring或第三方内置静态类与工具">
 <meta name="twitter:description" content="简介在日常开发中，可以会用到各种各样的静态变量或工具类，但其实spring源生就提供了很多优秀的静态变量类和工具类，这里简单记录一下。">
@@ -420,12 +420,24 @@
                 
               
 
-              <time title="创建时间：2019-06-24 17:06:00 / 修改时间：18:03:03" itemprop="dateCreated datePublished" datetime="2019-06-24T17:06:00+08:00">2019-06-24</time>
+              <time title="创建时间：2019-06-24 17:06:00" itemprop="dateCreated datePublished" datetime="2019-06-24T17:06:00+08:00">2019-06-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-26 11:32:23" itemprop="dateModified" datetime="2019-06-26T11:32:23+08:00">2019-06-26</time>
               
             
           </span>
@@ -491,6 +503,13 @@
 <blockquote>
 <p>http各种状态码与对应关系</p>
 </blockquote>
+<h1 id="org-dozer"><a href="#org-dozer" class="headerlink" title="org.dozer"></a>org.dozer</h1><ul>
+<li>org.dozer.Mapper</li>
+</ul>
+<blockquote>
+<p>对象之间拷贝属性，类似于org.apache.commons.beanutils.copyProperties(Object dest, Object orig)</p>
+</blockquote>
+<p>源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.dozer;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Public root interface for performing Dozer mappings from application code.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> tierney.matt</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> garsombke.franz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Mapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Constructs new instance of destinationClass and performs mapping between from source</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> source</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> destinationClass</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> MappingException</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  &lt;T&gt; <span class="function">T <span class="title">map</span><span class="params">(Object source, Class&lt;T&gt; destinationClass)</span> <span class="keyword">throws</span> MappingException</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Performs mapping between source and destination objects</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> source</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> destination</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> MappingException</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">map</span><span class="params">(Object source, Object destination)</span> <span class="keyword">throws</span> MappingException</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Constructs new instance of destinationClass and performs mapping between from source</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> source</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> destinationClass</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> mapId</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> MappingException</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  &lt;T&gt; <span class="function">T <span class="title">map</span><span class="params">(Object source, Class&lt;T&gt; destinationClass, String mapId)</span> <span class="keyword">throws</span> MappingException</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Performs mapping between source and destination objects</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> source</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> destination</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> mapId</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> MappingException</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">map</span><span class="params">(Object source, Object destination, String mapId)</span> <span class="keyword">throws</span> MappingException</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -536,6 +555,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/25/常见Linux命令/" rel="prev" title="常见Linux命令">
+                常见Linux命令 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -604,7 +627,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -620,6 +643,8 @@
                     
                   
                     
+                    
+                      
                     
                       
                     
@@ -700,7 +725,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -764,7 +791,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spring"><span class="nav-number">2.</span> <span class="nav-text">spring</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spring"><span class="nav-number">2.</span> <span class="nav-text">spring</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#org-dozer"><span class="nav-number">3.</span> <span class="nav-text">org.dozer</span></a></li></ol></div>
             
 
           </div>
