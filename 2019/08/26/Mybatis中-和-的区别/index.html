@@ -103,20 +103,18 @@
 
 
 
-  <meta name="description" content="基本概念  在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。这种类型的设计模式属于行为型模式。在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。">
-<meta name="keywords" content="设计模式,策略模式">
+  <meta name="description" content="背景动态 sql 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 sql 的语法：#{} 以及 ${} 。">
+<meta name="keywords" content="mybatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式之-策略模式">
-<meta property="og:url" content="http://yoursite.com/2019/06/11/设计模式之-策略模式/index.html">
+<meta property="og:title" content="Mybatis中#和$的区别">
+<meta property="og:url" content="http://yoursite.com/2019/08/26/Mybatis中-和-的区别/index.html">
 <meta property="og:site_name" content="隐逸居">
-<meta property="og:description" content="基本概念  在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。这种类型的设计模式属于行为型模式。在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。">
+<meta property="og:description" content="背景动态 sql 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 sql 的语法：#{} 以及 ${} 。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2014/08/strategy_pattern_uml_diagram.jpg">
-<meta property="og:updated_time" content="2019-06-11T09:20:48.237Z">
+<meta property="og:updated_time" content="2019-08-26T03:34:32.165Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式之-策略模式">
-<meta name="twitter:description" content="基本概念  在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。这种类型的设计模式属于行为型模式。在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。">
-<meta name="twitter:image" content="http://www.runoob.com/wp-content/uploads/2014/08/strategy_pattern_uml_diagram.jpg">
+<meta name="twitter:title" content="Mybatis中#和$的区别">
+<meta name="twitter:description" content="背景动态 sql 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 sql 的语法：#{} 以及 ${} 。">
 
 
 
@@ -124,7 +122,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/06/11/设计模式之-策略模式/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/26/Mybatis中-和-的区别/">
 
 
 
@@ -134,7 +132,7 @@
   };
 </script>
 
-  <title>设计模式之-策略模式 | 隐逸居</title>
+  <title>Mybatis中#和$的区别 | 隐逸居</title>
   
 
 
@@ -379,7 +377,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/11/设计模式之-策略模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/26/Mybatis中-和-的区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="feifuzeng">
@@ -396,7 +394,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设计模式之-策略模式
+          <h1 class="post-title" itemprop="name headline">Mybatis中#和$的区别
 
               
             
@@ -422,7 +420,7 @@
                 
               
 
-              <time title="创建时间：2019-06-11 17:15:00 / 修改时间：17:20:48" itemprop="dateCreated datePublished" datetime="2019-06-11T17:15:00+08:00">2019-06-11</time>
+              <time title="创建时间：2019-08-26 11:27:00 / 修改时间：11:34:32" itemprop="dateCreated datePublished" datetime="2019-08-26T11:27:00+08:00">2019-08-26</time>
             
 
             
@@ -444,7 +442,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mybatis/" itemprop="url" rel="index"><span itemprop="name">mybatis</span></a></span>
 
                 
                 
@@ -479,47 +477,26 @@
       
 
       
-        <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><blockquote>
-<p> 在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。这种类型的设计模式属于行为型模式。在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。</p>
-</blockquote>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>动态 sql 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 sql 的语法：#{} 以及 ${} 。</p>
 <a id="more"></a>
-<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p><strong>意图</strong>：定义一系列的算法,把它们一个个封装起来, 并且使它们可相互替换。<br><strong>主要解决</strong>：在有多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护。<br><strong>何时使用</strong>：一个系统有许多许多类，而区分它们的只是他们直接的行为。<br><strong>如何解决</strong>：将这些算法封装成一个一个的类，任意地替换。<br><strong>关键代码</strong>：实现同一个接口。<br><strong>应用实例</strong>： 1、诸葛亮的锦囊妙计，每一个锦囊就是一个策略。 2、旅行的出游方式，选择骑自行车、坐汽车，每一种旅行方式都是一个策略。 3、JAVA AWT 中的 LayoutManager。<br><strong>优点</strong>： 1、算法可以自由切换。 2、避免使用多重条件判断。 3、扩展性良好。<br><strong>缺点</strong>： 1、策略类会增多。 2、所有策略类都需要对外暴露。<br><strong>使用场景</strong>： 1、如果在一个系统里面有许多类，它们之间的区别仅在于它们的行为，那么使用策略模式可以动态地让一个对象在许多行为中选择一种行为。 2、一个系统需要动态地在几种算法中选择一种。 3、如果一个对象有很多的行为，如果不用恰当的模式，这些行为就只好使用多重的条件选择语句来实现。<br><strong>注意事项</strong>：如果一个系统的策略多于四个，就需要考虑使用混合模式，解决策略类膨胀的问题。</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>我们将创建一个定义活动的 Strategy 接口和实现了 Strategy 接口的实体策略类。Context 是一个使用了某种策略的类。<br>StrategyPatternDemo，我们的演示类使用 Context 和策略对象来演示 Context 在它所配置或使用的策略改变时的行为变化。<br><img src="http://www.runoob.com/wp-content/uploads/2014/08/strategy_pattern_uml_diagram.jpg" alt></p>
-<ol>
-<li>步骤 1<br>创建一个接口。</li>
-</ol>
-<p>Strategy.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Strategy</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">doOperation</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ol start="2">
-<li>步骤 2<br>创建实现接口的实体类。<blockquote>
-<p>OperationAdd.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationAdd</span> <span class="keyword">implements</span> <span class="title">Strategy</span></span>&#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">doOperation</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> num1 + num2;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
+<h2 id="主要区别"><a href="#主要区别" class="headerlink" title="主要区别"></a>主要区别</h2><ol>
+<li><p>#相当于对数据加上双引号</p>
+<p>$相当于直接显示数据。</p>
+</li>
+<li><p>#{} ： 根据参数的类型进行处理，比如传入String类型，则会为参数加上双引号。#{} 传参在进行SQL预编译时，会把参数部分用一个占位符 ? 代替，这样可以防止 SQL注入。</p>
+<p> ${} ： 将参数取出不做任何处理，直接放入语句中，就是简单的字符串替换，并且该参数会参加SQL的预编译，需要手动过滤参数防止 SQL注入。</p>
+</li>
+<li><p>因此<code>mybatis</code>中优先使用 #{}；当需要动态传入 表名或列名时，再考虑使用 ${} ， 比较特殊，他的应用场景是需要动态传入表名或列名时使用，MyBatis排序时使用orderby动态参数时需要注意，用 {} 比较特殊， 他的应用场景是 需要动态传入 表名或列名时使用，MyBatis排序时使用order by 动态参数时需要注意，用比较特殊，他的应用场景是需要动态传入表名或列名时使用，MyBatis排序时使用orderby动态参数时需要注意，用而不是#。</p>
 </li>
 </ol>
-<blockquote>
-<p>OperationSubstract.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationSubstract</span> <span class="keyword">implements</span> <span class="title">Strategy</span></span>&#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">doOperation</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> num1 - num2;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<blockquote>
-<p>OperationMultiply.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationMultiply</span> <span class="keyword">implements</span> <span class="title">Strategy</span></span>&#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">doOperation</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> num1 * num2;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<ol start="3">
-<li><p>步骤 3<br>创建 Context 类。</p>
-<blockquote>
-<p>Context.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class Context &#123;</span><br><span class="line">   private Strategy strategy;</span><br><span class="line"> </span><br><span class="line">   public Context(Strategy strategy)&#123;</span><br><span class="line">      this.strategy = strategy;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   public int executeStrategy(int num1, int num2)&#123;</span><br><span class="line">      return strategy.doOperation(num1, num2);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><ol>
+<li><p>#对传入的参数视为字符串，也就是它会预编译，$不会将传入的值进行预编译.<br> select <em> from user where user_name=${rookie}，比如我传一个rookie，那么传过来就是 select </em> from user where user_name = ‘rookie’；</p>
+<p> select <em> from user where user_name= ${rookie} ,那么传过来的sql就是：select </em> from user where user_name=rookie;</p>
 </li>
-<li><p>步骤 4<br>使用 Context 来查看当它改变策略 Strategy 时的行为变化。</p>
-<blockquote>
-<p>StrategyPatternDemo.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StrategyPatternDemo</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      Context context = <span class="keyword">new</span> Context(<span class="keyword">new</span> OperationAdd());    </span><br><span class="line">      System.out.println(<span class="string">"10 + 5 = "</span> + context.executeStrategy(<span class="number">10</span>, <span class="number">5</span>));</span><br><span class="line"> </span><br><span class="line">      context = <span class="keyword">new</span> Context(<span class="keyword">new</span> OperationSubstract());      </span><br><span class="line">      System.out.println(<span class="string">"10 - 5 = "</span> + context.executeStrategy(<span class="number">10</span>, <span class="number">5</span>));</span><br><span class="line"> </span><br><span class="line">      context = <span class="keyword">new</span> Context(<span class="keyword">new</span> OperationMultiply());    </span><br><span class="line">      System.out.println(<span class="string">"10 * 5 = "</span> + context.executeStrategy(<span class="number">10</span>, <span class="number">5</span>));</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
+<li><p>#优势在于它能很大程度防止sql注入，$ 不行。</p>
+<p> 比如：用户进行一个登录操作，后台sql验证式样的：select <em> from user where user_name=#{name} and password = #{pwd}，如果前台传来的用户名是“rookie”，密码是 “1 or 2”，用#的方式就不会出现sql注入，换成用$ 方式，sql语句就变成了 select </em> from user where user_name=rookie and password = 1 or 2。这样的话就形成了sql注入。</p>
 </li>
 </ol>
-<p>步骤 5<br>执行程序，输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">10 + 5 = 15</span><br><span class="line">10 - 5 = 5</span><br><span class="line">10 * 5 = 50</span><br></pre></td></tr></table></figure></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://www.runoob.com/design-pattern/strategy-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/strategy-pattern.html</a></li>
-</ul>
 
       
     </div>
@@ -543,9 +520,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
-          
-            <a href="/tags/策略模式/" rel="tag"># 策略模式</a>
+            <a href="/tags/mybatis/" rel="tag"># mybatis</a>
           
         </div>
       
@@ -558,8 +533,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/11/设计模式之-观察者模式/" rel="next" title="设计模式之-观察者模式">
-                <i class="fa fa-chevron-left"></i> 设计模式之-观察者模式
+              <a href="/2019/08/23/ElasticSearch-生命周期管理/" rel="next" title="ElasticSearch-生命周期管理">
+                <i class="fa fa-chevron-left"></i> ElasticSearch-生命周期管理
               </a>
             
           </div>
@@ -567,10 +542,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/11/设计模式之-装饰器模式/" rel="prev" title="设计模式之-装饰器模式">
-                设计模式之-装饰器模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -811,7 +782,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要区别"><span class="nav-number">2.</span> <span class="nav-text">主要区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">3.</span> <span class="nav-text">示例</span></a></li></ol></div>
             
 
           </div>
