@@ -4,6 +4,9 @@
     <title><![CDATA[数据库：浅谈DML、DDL、DCL的区别]]></title>
     <url>%2F2019%2F08%2F27%2F%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9A%E6%B5%85%E8%B0%88DML%E3%80%81DDL%E3%80%81DCL%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[简介SQL是一个标准的数据库语言，是面向集合的描述性非过程化语言。它功能强，效率高，简单易学易维护（迄今为止，我还没见过比它还好学的语言）。然而SQL语言由于以上优点，同时也出现了这样一个问题：它是非过程性语言，即大多数语句都是独立执行的，与上下文无关，而绝大部分应用都是一个完整的过程，显然用SQL完全实现这些功能是很困难的。 所以大多数数据库公司为了解决此问题，作了如下两方面的工作： 扩充SQL，在SQL中引入过程性结构； 把SQL嵌入到高级语言中，以便一起完成一个完整的应用。 SQL语言的分类SQL语言共分为四大类：数据查询语言DQL，数据操纵语言DML，数据定义语言DDL，数据控制语言DCL。 DQL DML（data query language）数据查询语言 数据查询语言DQL基本结构是由SELECT子句，FROM子句，WHERE子句组成的查询块：SELECT &lt;字段名表&gt;FROM &lt;表或视图名&gt;WHERE &lt;查询条件&gt; 1SELECT 列名称 FROM 表名称 DML DML（data manipulation language）数据操纵语言 就是我们最经常用到的 UPDATE、INSERT、DELETE。 主要用来对数据库的数据进行一些操作。 123UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)DELETE FROM 表名称 WHERE 列名称 = 值 DDL DDL（data definition language）数据库定义语言 其实就是我们在创建表的时候用到的一些sql，比如说：CREATE、ALTER、DROP等。DDL主要是用在定义或改变表的结构，数据类型，表之间的链接和约束等初始化工作上 12345678910111213CREATE TABLE 表名称(列名称1 数据类型,列名称2 数据类型,列名称3 数据类型,....)ALTER TABLE table_nameALTER COLUMN column_name datatypeDROP TABLE 表名称DROP DATABASE 数据库名称 DCL DCL（Data Control Language）数据库控制语言 是用来设置或更改数据库用户或角色权限的语句，包括（grant,deny,revoke等）语句。这个比较少用到。]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[数据库：drop、truncate、delete的区别]]></title>
