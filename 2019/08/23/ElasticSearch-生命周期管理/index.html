@@ -112,7 +112,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://feifuzeng.oss-cn-beijing.aliyuncs.com/upload/blog/hexo/ILM%E9%98%B6%E6%AE%B5%E7%B1%BB%E6%AF%94.jpg">
 <meta property="og:image" content="https://feifuzeng.oss-cn-beijing.aliyuncs.com/upload/blog/hexo/Kibana%20ILM.jpg">
-<meta property="og:updated_time" content="2019-08-29T12:17:35.212Z">
+<meta property="og:updated_time" content="2019-08-30T02:05:05.791Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ElasticSearch-生命周期管理">
 <meta name="twitter:description" content="1月29日，Elastic Stack 迎来 6.6 版本的发布，该版本带来很多新功能，比如：  Index Lifecycle Management Frozen Index Geoshape based on Bkd Tree SQL adds support for Date histograms ……  在这些众多功能中，Index Lifecycle Management(索引生命周期管">
@@ -439,7 +439,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-29 20:17:35" itemprop="dateModified" datetime="2019-08-29T20:17:35+08:00">2019-08-29</time>
+                <time title="修改时间：2019-08-30 10:05:05" itemprop="dateModified" datetime="2019-08-30T10:05:05+08:00">2019-08-30</time>
               
             
           </span>
@@ -536,11 +536,8 @@
 <p>ILM 将不同的生命周期管理策略称为 <code>Policy</code>，而所谓的 <code>Policy</code> 是由不同阶段(<code>Phase</code>)的不同动作(<code>Action</code>)组成的。</p>
 <p>Action是一系列操作索引的动作，比如 Rollover、Shrink、Force Merge等，不同阶段可用的 Action 不同，详情如下：</p>
 <ul>
-<li><p>Hot Phase</p>
-<ul>
-<li><p>Rollover </p>
-<p>滚动索引操作，可用在索引大小或者文档数达到某设定值时，创建新的索引用于数据读写，从而控制单个索引的大小。这里要注意的一点是，如果启用了 Rollover，那么所有阶段的时间不再以索引创建时间为准，而是以该索引 Rollover 的时间为准。</p>
-</li>
+<li>Hot Phase<ul>
+<li>Rollover<br>滚动索引操作，可用在索引大小或者文档数达到某设定值时，创建新的索引用于数据读写，从而控制单个索引的大小。这里要注意的一点是，如果启用了 Rollover，那么所有阶段的时间不再以索引创建时间为准，而是以该索引 Rollover 的时间为准。</li>
 </ul>
 </li>
 <li>Warm Phase<ul>
@@ -604,6 +601,7 @@
 </li>
 <li><p>官网文档：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.6/index-lifecycle-management.html" target="_blank" rel="noopener">Managing the index lifecycle</a></p>
 </li>
+<li>官网文档：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/_actions.html" target="_blank" rel="noopener">Policy phases and actions </a></li>
 </ul>
 
       
@@ -826,7 +824,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">25</span>
+                      
+                    
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
