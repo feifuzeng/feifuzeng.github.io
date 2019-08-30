@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概述本文是在本人学习研究ElasticSearch的生命周期管理策略时，发现官方未提供中文文档，有的也是零零散散，此文主要是翻译官方文档Policy phases and actions模块。 注：基于6.7版本 索引生命周期中有四个阶段，按执行顺序排列。    名称 描述     hot 该索引正在积极写入   warm 索引通常不会被写入，但仍然会被查询   cold 索引不再更新，很少查询。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生命周期管理-索引策略配置与操作">
+<meta property="og:url" content="http://yoursite.com/2019/08/30/生命周期管理-索引策略配置与操作/index.html">
+<meta property="og:site_name" content="隐逸居">
+<meta property="og:description" content="概述本文是在本人学习研究ElasticSearch的生命周期管理策略时，发现官方未提供中文文档，有的也是零零散散，此文主要是翻译官方文档Policy phases and actions模块。 注：基于6.7版本 索引生命周期中有四个阶段，按执行顺序排列。    名称 描述     hot 该索引正在积极写入   warm 索引通常不会被写入，但仍然会被查询   cold 索引不再更新，很少查询。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-30T09:39:31.256Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="生命周期管理-索引策略配置与操作">
+<meta name="twitter:description" content="概述本文是在本人学习研究ElasticSearch的生命周期管理策略时，发现官方未提供中文文档，有的也是零零散散，此文主要是翻译官方文档Policy phases and actions模块。 注：基于6.7版本 索引生命周期中有四个阶段，按执行顺序排列。    名称 描述     hot 该索引正在积极写入   warm 索引通常不会被写入，但仍然会被查询   cold 索引不再更新，很少查询。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/08/30/生命周期管理-索引策略配置与操作/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>生命周期管理-索引策略配置与操作 | 隐逸居</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">隐逸居</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/30/生命周期管理-索引策略配置与操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="feifuzeng">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="隐逸居">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">生命周期管理-索引策略配置与操作
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-30 17:36:00 / 修改时间：17:39:31" itemprop="dateCreated datePublished" datetime="2019-08-30T17:36:00+08:00">2019-08-30</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本文是在本人学习研究ElasticSearch的生命周期管理策略时，发现官方未提供中文文档，有的也是零零散散，此文主要是翻译官方文档<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/ilm-policy-definition.html" target="_blank" rel="noopener">Policy phases and actions</a>模块。</p>
+<p>注：基于<code>6.7</code>版本</p>
+<p>索引生命周期中有四个阶段，按执行顺序排列。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hot</code></td>
+<td>该索引正在积极写入</td>
+</tr>
+<tr>
+<td><code>warm</code></td>
+<td>索引通常不会被写入，但仍然会被查询</td>
+</tr>
+<tr>
+<td><code>cold</code></td>
+<td>索引不再更新，很少查询。信息仍然需要搜索，但如果这些查询速度较慢也没关系。</td>
+</tr>
+<tr>
+<td><code>delete</code></td>
+<td>不再需要索引，可以安全删除</td>
+</tr>
+</tbody>
+</table>
+<p>​        这些阶段中的每一个都称为<code>阶段</code>。策略不需要为索引配置每个阶段。例如，一个策略可以仅定义热阶段和删除阶段，而另一个策略可以定义所有四个阶段。</p>
+<a id="more"></a>
+<h2 id="时间（Timing）"><a href="#时间（Timing）" class="headerlink" title="时间（Timing）"></a>时间（Timing）</h2><p>​        索引进入某阶段是基于该阶段设置的<code>min_age</code>参数。当索引的“年龄”大于该阶段设置的的<code>min_age</code>之前，索引才会进入阶段<code>min_age</code>。使用持续时间格式配置参数（请参阅<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/common-options.html#time-units" target="_blank" rel="noopener">时间单位</a>）。</p>
+<p><code>min_age</code>如果未指定，则每个阶段的默认值为零秒<code>0s</code>。</p>
+<p><strong>示例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"warm"</span>: &#123;</span><br><span class="line">        <span class="string">"min_age"</span>: <span class="string">"1d"</span>,</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"allocate"</span>: &#123;</span><br><span class="line">            <span class="string">"number_of_replicas"</span>: 1</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"delete"</span>: &#123;</span><br><span class="line">        <span class="string">"min_age"</span>: <span class="string">"30d"</span>,</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"delete"</span>: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上示例策略，在一天之后将索引移动到暖阶段。在此之前，该索引处于等待状态。进入暖阶段后，它将等待30天后才能进入删除阶段并删除索引。</p>
+<p><code>min_age</code>通常是从创建索引的时间开始经过的时间。如果索引被翻转，那么<code>min_age</code>是从索引翻转开始经过的时间。这里的目的是执行以下阶段和操作，这些阶段和操作相对于数据最后写入滚动索引的时间。</p>
+<p>在索引生命周期管理将检查<code>min_age</code> 并转换到下一阶段之前，必须完成上一阶段的操作。</p>
+<h2 id="Phase-Execution（阶段执行）"><a href="#Phase-Execution（阶段执行）" class="headerlink" title="Phase Execution（阶段执行）"></a>Phase Execution（阶段执行）</h2><p>​        正在执行的索引策略的当前阶段定义存储在索引的元数据中。阶段及其动作被编译成一系列按顺序执行的离散步骤。由于某些ILM操作更复杂并且涉及针对索引的多个操作，因此这些操作中的每一个都在称为“步骤”的单元中单独完成。该 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/ilm-explain-lifecycle.html" target="_blank" rel="noopener">解释生命周期API</a>公开这些信息给我们，看看哪些步骤我们的索引或者接下来执行或正在执行。</p>
+<h2 id="Actions（操作）"><a href="#Actions（操作）" class="headerlink" title="Actions（操作）"></a>Actions（操作）</h2><p>下列清单展示每个阶段可配置的动作。</p>
+<blockquote>
+<p>在每个阶段中执行已配置操作的顺序由ILM自动确定，并且无法通过更改策略定义进行更改。</p>
+</blockquote>
+<p>热阶段（Hot）</p>
+<ul>
+<li><a href="#Set Priority"><strong>设置优先级（Set Priority）</strong></a></li>
+<li><a href="#Rollover"><strong>滚动更新（Rollover）</strong></a></li>
+<li><a href="#Unfollow"><strong>取消关注（Unfollow）</strong></a></li>
+</ul>
+<p>温阶段（Warm）</p>
+<ul>
+<li><a href="#Set Priority"><strong>设置优先级（Set Priority）</strong></a></li>
+<li><a href="#Allocate"><strong>分配（Allocate）</strong></a></li>
+<li><a href="#Read-Only"><strong>只读（Read-Only）</strong></a></li>
+<li><a href="#Force Merge"><strong>强制合并（Force Merge）</strong></a></li>
+<li><a href="#Shrink"><strong>收缩（Shrink）</strong></a></li>
+<li><a href="#Unfollow"><strong>取消关注（Unfollow）</strong></a></li>
+</ul>
+<p>冷阶段（Cold）</p>
+<ul>
+<li><a href="#Set Priority"><strong>设置优先级（Set Priority）</strong></a></li>
+<li><a href="#Allocate"><strong>分配（Allocate）</strong></a></li>
+<li><a href="#Freeze"><strong>冻结（Freeze）</strong></a></li>
+<li><a href="#Unfollow"><strong>取消关注（Unfollow）</strong></a></li>
+</ul>
+<p>删除阶段（Delete）</p>
+<ul>
+<li><a href="#Delete"><strong>删除（Delete）</strong></a></li>
+</ul>
+<h4 id="Allocate"><a href="#Allocate" class="headerlink" title="Allocate"></a>Allocate</h4><p><strong>阶段允许</strong>：warm，cold</p>
+<p>​        Allocate操作允许您指定允许哪些节点托管索引的分片并设置副本数。在这些场景背后，它正在修改分片过滤和/或副本计数的索引设置。更新副本数时，配置分配规则是可选的。配置分配规则时，设置副本数是可选的。虽然此操作可以视为两个单独的索引设置更新，但两者都可以一次配置。</p>
+<p><strong>配置选项</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>number_of_replicas</code></td>
+<td>no</td>
+<td>-</td>
+<td>The number of replicas to assign to the index</td>
+</tr>
+<tr>
+<td><code>include</code></td>
+<td>no</td>
+<td>-</td>
+<td>assigns an index to nodes having at least <em>one</em> of the attributes</td>
+</tr>
+<tr>
+<td><code>exclude</code></td>
+<td>no</td>
+<td>-</td>
+<td>assigns an index to nodes having <em>none</em> of the attributes</td>
+</tr>
+<tr>
+<td><code>require</code></td>
+<td>no</td>
+<td>-</td>
+<td>assigns an index to nodes having <em>all</em> of the attributes</td>
+</tr>
+</tbody>
+</table>
+<p>如果<code>number_of_replicas</code>未配置，那么<code>include</code>， <code>exclude</code>和<code>require</code>中的至少一个是必需的。没有配置的空Allocate Action是无效的。</p>
+<h5 id="示例：更改副本"><a href="#示例：更改副本" class="headerlink" title="示例：更改副本"></a><strong>示例：更改副本</strong></h5><p>在此示例中，索引的副本数已更改为<code>2</code>，而分配规则未更改。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"warm"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"allocate"</span> : &#123;</span><br><span class="line">            <span class="string">"number_of_replicas"</span> : 2</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h4><p>阶段允许：delete</p>
+<p>删除操作就是这样，它会删除索引。</p>
+<p>此操作没有与之关联的任何选项。</p>
+<h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"delete"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"delete"</span> : &#123; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Force-Merge"><a href="#Force-Merge" class="headerlink" title="Force Merge"></a>Force Merge</h4><p>阶段允许：delete</p>
+<blockquote>
+<p>执行此操作时，索引将变成只读。<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/index-modules.html#dynamic-index-settings" target="_blank" rel="noopener">请参考</a></p>
+</blockquote>
+<p>强制合并操作<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/indices-forcemerge.html" target="_blank" rel="noopener">Force Merge</a>会将索引合并为最多特定数量的<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/indices-segments.html" target="_blank" rel="noopener">segments</a>。</p>
+<p><strong>配置选项</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>是否必须</th>
+<th>默认</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>max_num_segments</code></td>
+<td>是</td>
+<td>-</td>
+<td>要合并的段数。要完全合并索引，请将其设置为<code>1</code></td>
+</tr>
+</tbody>
+</table>
+<h5 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"warm"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"forcemerge"</span> : &#123;</span><br><span class="line">            <span class="string">"max_num_segments"</span>: 1</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Freeze"><a href="#Freeze" class="headerlink" title="Freeze"></a>Freeze</h4><p>阶段允许：cold</p>
+<p>该动作将通过调用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/freeze-index-api.html" target="_blank" rel="noopener">Freeze Index API</a>的api来<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/frozen-indices.html" target="_blank" rel="noopener">freeze</a>索引</p>
+<blockquote>
+<p>冻结索引将关闭索引并在同一API调用中重新打开它。<br>这导致初选不能在短时间内分配<br>导致群集变红，直到再次分配原色。<br>将来可能会删除此限制。</p>
+</blockquote>
+<h5 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"cold"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"freeze"</span> : &#123; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Read-Only"><a href="#Read-Only" class="headerlink" title="Read-Only"></a>Read-Only</h4><p>阶段允许：warm</p>
+<p>此操作将索引设置为只读（请参阅：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/index-modules.html#dynamic-index-settings" target="_blank" rel="noopener">index.blocks.write</a>）</p>
+<p>此操作没有与之关联的任何选项。</p>
+<h5 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"warm"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"readonly"</span> : &#123; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Rollover"><a href="#Rollover" class="headerlink" title="Rollover"></a>Rollover</h4><p>阶段允许：hot</p>
+<ul>
+<li>索引格式必须匹配模式<em>^。\</em> - \ d + $*，例如（<code>logs-000001</code>）。</li>
+<li>托管的索引必须设置<code>index.lifecycle.rollover_alias</code>为别名进行Rollover，且索引还必须是以别名的写入。</li>
+</ul>
+<p>例如，如果要管理的索引具有别名<code>my_data</code>。托管的索引“my_index”必须是别名的写入索引。有关更多信息，请阅读 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/indices-rollover-index.html#indices-rollover-is-write-index" target="_blank" rel="noopener">写入索引别名行为</a>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT my_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"settings"</span>: &#123;</span><br><span class="line">    <span class="string">"index.lifecycle.name"</span>: <span class="string">"my_policy"</span>,</span><br><span class="line">    <span class="string">"index.lifecycle.rollover_alias"</span>: <span class="string">"my_data"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"aliases"</span>: &#123;</span><br><span class="line">    <span class="string">"my_data"</span>: &#123;</span><br><span class="line">      <span class="string">"is_write_index"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当现有索引满足其中一个滚动更新条件时，“Rollover Action”会将别名转到新索引。</p>
+<p><strong>配置选项</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>max_size</code></td>
+<td>no</td>
+<td>-</td>
+<td>最大主分片索引存储大小。请参见<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/common-options.html#byte-units" target="_blank" rel="noopener">字节单位</a> 以进行格式化</td>
+</tr>
+<tr>
+<td><code>max_docs</code></td>
+<td>no</td>
+<td>-</td>
+<td>滚动前索引要包含的最大文档数。</td>
+</tr>
+<tr>
+<td><code>max_age</code></td>
+<td>no</td>
+<td>-</td>
+<td>索引创建过去的最长时间。请参阅 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/common-options.html#time-units" target="_blank" rel="noopener">时间单位</a> 以进行格式</td>
+</tr>
+</tbody>
+</table>
+<p>中的至少一个<code>max_size</code>，<code>max_docs</code>，<code>max_age</code>或需要这三者的任意组合来进行指定。</p>
+<h5 id="示例：索引过大时滚动"><a href="#示例：索引过大时滚动" class="headerlink" title="示例：索引过大时滚动"></a>示例：索引过大时滚动</h5><p>此示例在至少100千兆字节时滚动索引。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"hot"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"rollover"</span> : &#123;</span><br><span class="line">            <span class="string">"max_size"</span>: <span class="string">"100GB"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="示例：索引包含太多文档时滚动"><a href="#示例：索引包含太多文档时滚动" class="headerlink" title="示例：索引包含太多文档时滚动"></a>示例：索引包含太多文档时滚动</h5><p>此示例在包含至少100000000个文档时将索引翻转。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"hot"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"rollover"</span> : &#123;</span><br><span class="line">            <span class="string">"max_docs"</span>: 100000000</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="示例：索引太旧时滚动"><a href="#示例：索引太旧时滚动" class="headerlink" title="示例：索引太旧时滚动"></a>示例：索引太旧时滚动</h5><p>此示例至少在7天前创建索引。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"hot"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"rollover"</span> : &#123;</span><br><span class="line">            <span class="string">"max_age"</span>: <span class="string">"7d"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="示例：索引太旧或太大时的翻转"><a href="#示例：索引太旧或太大时的翻转" class="headerlink" title="示例：索引太旧或太大时的翻转"></a>示例：索引太旧或太大时的翻转</h5><p>此示例在至少7天前创建索引或至少100千兆字节时将索引卷起。在这种情况下，当满足任何条件时，索引将被翻转。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"hot"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"rollover"</span> : &#123;</span><br><span class="line">            <span class="string">"max_age"</span>: <span class="string">"7d"</span>,</span><br><span class="line">            <span class="string">"max_size"</span>: <span class="string">"100GB"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Set-Priority"><a href="#Set-Priority" class="headerlink" title="Set Priority"></a>Set Priority</h4><p>阶段允许: hot, warm, cold.</p>
+<p>一旦策略进入hot，warm或cold阶段，此操作就会为索引设置<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/recovery-prioritization.html" target="_blank" rel="noopener">索引优先级</a>。具有较高优先级的索引将在节点重启后具有较低优先级的索引之前恢复。通常，hot阶段的指数应具有最高值，而cold阶段的指数应具有最低值。例如：hot阶段设置为100，warm阶段设置为50，cold阶段设置为0。未设置此值的指标的默认优先级为1。</p>
+<p><strong>配置选项</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>需要</th>
+<th>默认</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>priority</code></td>
+<td>是</td>
+<td>-</td>
+<td>索引的优先级。必须为0或更大。该值也可以设置为null以删除优先级。</td>
+</tr>
+</tbody>
+</table>
+<h5 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"warm"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"set_priority"</span> : &#123;</span><br><span class="line">            <span class="string">"priority"</span>: 50</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Shrink"><a href="#Shrink" class="headerlink" title="Shrink"></a>Shrink</h4><blockquote>
+<p>运行此操作时，索引将变为只读（请参阅：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/index-modules.html#dynamic-index-settings" target="_blank" rel="noopener">index.blocks.write</a>）</p>
+</blockquote>
+<p>此操作会将现有索引缩减为具有较少主分片的新索引。它调用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/indices-shrink-index.html" target="_blank" rel="noopener">Shrink API</a>来缩小索引。由于将索引的所有主分片分配给一个节点是先决条件，因此该操作将首先将主分片分配给有效节点。收缩后，它会将指向原始索引的别名交换到新的收缩指数中。新索引还将有一个新名称：“shrink- <origin-index-name>”。因此，如果原始索引称为“logs”，则新索引将命名为“shrink-logs”。</origin-index-name></p>
+<p><strong>配置选项</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>需要</th>
+<th>默认</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>number_of_shards</code></td>
+<td>是</td>
+<td>-</td>
+<td>要缩小的分片数。必须是源索引中分片数量的一个因子。</td>
+</tr>
+</tbody>
+</table>
+<h5 id="示例-5"><a href="#示例-5" class="headerlink" title="示例"></a>示例</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"warm"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"shrink"</span> : &#123;</span><br><span class="line">            <span class="string">"number_of_shards"</span>: 1</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Unfollow"><a href="#Unfollow" class="headerlink" title="Unfollow"></a>Unfollow</h4><blockquote>
+<p>此操作可以显式使用，如下所示，但此操作也在<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/_actions.html#ilm-rollover-action" target="_blank" rel="noopener">Rollover操作</a>和<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/_actions.html#ilm-shrink-action" target="_blank" rel="noopener">Shrink操作</a>之前运行，如这些操作的文档中所述。</p>
+</blockquote>
+<p>取消关注操作没有任何选项，如果遇到非关注者索引，则取消关注操作会保持索引不变，并允许下一个操作对此索引进行操作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/my_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"hot"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"unfollow"</span> : &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="完整策略（Full-Policy）"><a href="#完整策略（Full-Policy）" class="headerlink" title="完整策略（Full Policy）"></a>完整策略（Full Policy）</h2><p>​        通过所有这些操作，我们可以为我们的索引支持复杂的管理策略。此策略将定义一个将在热阶段开始的索引，每50 GB或7天滚动一次。30天后，它进入温暖阶段并将副本增加到2，强制合并和收缩。60天后进入冷期并分配到“冷”节点，90天后删除索引。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">PUT _ilm/policy/full_policy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"policy"</span>: &#123;</span><br><span class="line">    <span class="string">"phases"</span>: &#123;</span><br><span class="line">      <span class="string">"hot"</span>: &#123;</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"rollover"</span>: &#123;</span><br><span class="line">            <span class="string">"max_age"</span>: <span class="string">"7d"</span>,</span><br><span class="line">            <span class="string">"max_size"</span>: <span class="string">"50G"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"warm"</span>: &#123;</span><br><span class="line">        <span class="string">"min_age"</span>: <span class="string">"30d"</span>,</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"forcemerge"</span>: &#123;</span><br><span class="line">            <span class="string">"max_num_segments"</span>: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"shrink"</span>: &#123;</span><br><span class="line">            <span class="string">"number_of_shards"</span>: 1</span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"allocate"</span>: &#123;</span><br><span class="line">            <span class="string">"number_of_replicas"</span>: 2</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"cold"</span>: &#123;</span><br><span class="line">        <span class="string">"min_age"</span>: <span class="string">"60d"</span>,</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"allocate"</span>: &#123;</span><br><span class="line">            <span class="string">"require"</span>: &#123;</span><br><span class="line">              <span class="string">"type"</span>: <span class="string">"cold"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"delete"</span>: &#123;</span><br><span class="line">        <span class="string">"min_age"</span>: <span class="string">"90d"</span>,</span><br><span class="line">        <span class="string">"actions"</span>: &#123;</span><br><span class="line">          <span class="string">"delete"</span>: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/_actions.html#ilm-set-priority-action" target="_blank" rel="noopener">官方手册：Policy phases and actions</a></li>
+<li><a href="https://github.com/elastic/elasticsearch/edit/6.7/docs/reference/ilm/policy-definitions.asciidoc" target="_blank" rel="noopener">官方源码文档：policy-definitions.asciidoc</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/27/JDBC之PreparedStatement-详解/" rel="next" title="JDBC之PreparedStatement 详解">
+                <i class="fa fa-chevron-left"></i> JDBC之PreparedStatement 详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">feifuzeng</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/feifuzeng" title="GitHub &rarr; https://github.com/feifuzeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:feifuzeng@gmail.com" title="E-Mail &rarr; mailto:feifuzeng@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间（Timing）"><span class="nav-number">2.</span> <span class="nav-text">时间（Timing）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-Execution（阶段执行）"><span class="nav-number">3.</span> <span class="nav-text">Phase Execution（阶段执行）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Actions（操作）"><span class="nav-number">4.</span> <span class="nav-text">Actions（操作）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Allocate"><span class="nav-number">4.0.1.</span> <span class="nav-text">Allocate</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例：更改副本"><span class="nav-number">4.0.1.1.</span> <span class="nav-text">示例：更改副本</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Delete"><span class="nav-number">4.0.2.</span> <span class="nav-text">Delete</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例"><span class="nav-number">4.0.2.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Force-Merge"><span class="nav-number">4.0.3.</span> <span class="nav-text">Force Merge</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例-1"><span class="nav-number">4.0.3.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Freeze"><span class="nav-number">4.0.4.</span> <span class="nav-text">Freeze</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例-2"><span class="nav-number">4.0.4.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Read-Only"><span class="nav-number">4.0.5.</span> <span class="nav-text">Read-Only</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例-3"><span class="nav-number">4.0.5.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rollover"><span class="nav-number">4.0.6.</span> <span class="nav-text">Rollover</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例：索引过大时滚动"><span class="nav-number">4.0.6.1.</span> <span class="nav-text">示例：索引过大时滚动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#示例：索引包含太多文档时滚动"><span class="nav-number">4.0.6.2.</span> <span class="nav-text">示例：索引包含太多文档时滚动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#示例：索引太旧时滚动"><span class="nav-number">4.0.6.3.</span> <span class="nav-text">示例：索引太旧时滚动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#示例：索引太旧或太大时的翻转"><span class="nav-number">4.0.6.4.</span> <span class="nav-text">示例：索引太旧或太大时的翻转</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set-Priority"><span class="nav-number">4.0.7.</span> <span class="nav-text">Set Priority</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例-4"><span class="nav-number">4.0.7.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shrink"><span class="nav-number">4.0.8.</span> <span class="nav-text">Shrink</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例-5"><span class="nav-number">4.0.8.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Unfollow"><span class="nav-number">4.0.9.</span> <span class="nav-text">Unfollow</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#完整策略（Full-Policy）"><span class="nav-number">5.</span> <span class="nav-text">完整策略（Full Policy）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">feifuzeng</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
