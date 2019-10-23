@@ -103,18 +103,17 @@
 
 
 
-  <meta name="description" content="介绍分类总体来说设计模式分为三大类：  创建型模式，共五种：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式。 结构型模式，共七种：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式。 行为型模式，共十一种：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式。其实还有两类：并发型模式和线程池">
-<meta name="keywords" content="设计模式">
+  <meta name="description" content="简介在项目中我们有时候需要调用第三方的 API，微服务架构中这种情况则更是无法避免——各个微服务之间通信。比如一般的项目中，有时候我们会使用 HTTP Client 发送 HTTP 请求来进行调用，而在微服务架构，Spring Cloud 全家桶中，Spring Cloud Feign 则是更常见的选择。那么，我如何只使用 Spring Cloud Feign 而不引入整个 Spring Clou">
 <meta property="og:type" content="article">
-<meta property="og:title" content="大话设计模式">
-<meta property="og:url" content="http://yoursite.com/2019/06/11/大话设计模式/index.html">
+<meta property="og:title" content="微服务实战SpringCloud之Spring Cloud Feign替代HTTP Client">
+<meta property="og:url" content="http://yoursite.com/2019/10/23/微服务实战SpringCloud之Spring-Cloud-Feign替代HTTP-Client/index.html">
 <meta property="og:site_name" content="隐逸居">
-<meta property="og:description" content="介绍分类总体来说设计模式分为三大类：  创建型模式，共五种：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式。 结构型模式，共七种：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式。 行为型模式，共十一种：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式。其实还有两类：并发型模式和线程池">
+<meta property="og:description" content="简介在项目中我们有时候需要调用第三方的 API，微服务架构中这种情况则更是无法避免——各个微服务之间通信。比如一般的项目中，有时候我们会使用 HTTP Client 发送 HTTP 请求来进行调用，而在微服务架构，Spring Cloud 全家桶中，Spring Cloud Feign 则是更常见的选择。那么，我如何只使用 Spring Cloud Feign 而不引入整个 Spring Clou">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-11T09:17:49.632Z">
+<meta property="og:updated_time" content="2019-10-23T07:19:13.460Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大话设计模式">
-<meta name="twitter:description" content="介绍分类总体来说设计模式分为三大类：  创建型模式，共五种：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式。 结构型模式，共七种：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式。 行为型模式，共十一种：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式。其实还有两类：并发型模式和线程池">
+<meta name="twitter:title" content="微服务实战SpringCloud之Spring Cloud Feign替代HTTP Client">
+<meta name="twitter:description" content="简介在项目中我们有时候需要调用第三方的 API，微服务架构中这种情况则更是无法避免——各个微服务之间通信。比如一般的项目中，有时候我们会使用 HTTP Client 发送 HTTP 请求来进行调用，而在微服务架构，Spring Cloud 全家桶中，Spring Cloud Feign 则是更常见的选择。那么，我如何只使用 Spring Cloud Feign 而不引入整个 Spring Clou">
 
 
 
@@ -122,7 +121,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/06/11/大话设计模式/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/23/微服务实战SpringCloud之Spring-Cloud-Feign替代HTTP-Client/">
 
 
 
@@ -132,7 +131,7 @@
   };
 </script>
 
-  <title>大话设计模式 | 隐逸居</title>
+  <title>微服务实战SpringCloud之Spring Cloud Feign替代HTTP Client | 隐逸居</title>
   
 
 
@@ -377,7 +376,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/11/大话设计模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/23/微服务实战SpringCloud之Spring-Cloud-Feign替代HTTP-Client/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="feifuzeng">
@@ -394,7 +393,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">大话设计模式
+          <h1 class="post-title" itemprop="name headline">微服务实战SpringCloud之Spring Cloud Feign替代HTTP Client
 
               
             
@@ -420,7 +419,7 @@
                 
               
 
-              <time title="创建时间：2019-06-11 17:03:00 / 修改时间：17:17:49" itemprop="dateCreated datePublished" datetime="2019-06-11T17:03:00+08:00">2019-06-11</time>
+              <time title="创建时间：2019-10-23 15:16:37 / 修改时间：15:19:13" itemprop="dateCreated datePublished" datetime="2019-10-23T15:16:37+08:00">2019-10-23</time>
             
 
             
@@ -430,24 +429,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -477,118 +458,114 @@
       
 
       
-        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>总体来说设计模式分为三大类：</p>
-<ul>
-<li>创建型模式，共五种：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式。</li>
-<li>结构型模式，共七种：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式。</li>
-<li>行为型模式，共十一种：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式。<br>其实还有两类：并发型模式和线程池模式。</li>
-</ul>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在项目中我们有时候需要调用第三方的 <code>API</code>，微服务架构中这种情况则更是无法避免——各个微服务之间通信。比如一般的项目中，有时候我们会使用 HTTP Client 发送 HTTP 请求来进行调用，而在微服务架构，Spring Cloud 全家桶中，Spring Cloud Feign 则是更常见的选择。那么，我如何只使用 Spring Cloud Feign 而不引入整个 Spring Cloud 呢？</p>
 <a id="more"></a>
-<h3 id="中英文对照"><a href="#中英文对照" class="headerlink" title="中英文对照"></a>中英文对照</h3><table>
+<h2 id="什么是Feign"><a href="#什么是Feign" class="headerlink" title="什么是Feign?"></a>什么是Feign?</h2><p>Feign是一个声明式的Web Service客户端，它的目的就是让Web Service调用更加简单。Feign提供了HTTP请求的模板，通过编写简单的接口和插入注解，就可以定义好HTTP请求的参数、格式、地址等信息。</p>
+<p>而Feign则会完全代理HTTP请求，我们只需要像调用方法一样调用它就可以完成服务请求及相关处理。Feign整合了Ribbon和Hystrix，可以让我们不再需要显式地使用这两个组件。</p>
+<p>总起来说，Feign具有如下特性：</p>
+<ul>
+<li>可插拔的注解支持，包括Feign注解和JAX-RS注解;</li>
+<li>支持可插拔的HTTP编码器和解码器;</li>
+<li>支持Hystrix和它的Fallback;</li>
+<li>支持Ribbon的负载均衡;</li>
+<li>支持HTTP请求和响应的压缩。</li>
+</ul>
+<p>这看起来有点像我们springmvc模式的Controller层的RequestMapping映射。这种模式是我们非常喜欢的。Feign是用@FeignClient来映射服务的。</p>
+<h2 id="首先找一个AIP"><a href="#首先找一个AIP" class="headerlink" title="首先找一个AIP"></a>首先找一个AIP</h2><p>免费的 <code>API</code> 特别多，<code>github</code> 上也有免费 <code>API</code> 地址汇总的 <code>repo</code>，但这些都太正式了。有趣的事物总是会相互吸引的，无意间我发现了这么一个网站，“渣男：说话的艺术”（<a href="https://lovelive.tools" target="_blank" rel="noopener">lovelive.tools</a>) ，每次请求都可以获取一句甜言蜜语（渣男语录）,特别良心的是，作者提供了 <code>API</code> 列表，给作者点赞！</p>
+<h2 id="如何调用第三方服务？"><a href="#如何调用第三方服务？" class="headerlink" title="如何调用第三方服务？"></a>如何调用第三方服务？</h2><p>首先，我们先快速构建一个 Spring Boot 的 web 项目，这里我就省略了。然后在pom中添加feign的相关依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.3.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后，在启动类添加响应的注解 <code>@EnableFeignClients</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringbootMiddlewareFeignApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringbootMiddlewareFeignApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着，我们便可以配置我们的 Client 了，我们先创建一个接口类，比如叫 <code>BadGuyFeignClient</code> ，并声明为 <code>FeignClient</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BadGuyFeignClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>@FeignClient</code>有以下几个较常用属性：</p>
+<table>
 <thead>
 <tr>
-<th style="text-align:left">中文</th>
-<th style="text-align:left">英文</th>
+<th>属性名</th>
+<th>默认值</th>
+<th>作用</th>
+<th>备注</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">1.工厂方法模式</td>
-<td style="text-align:left">Factory Method Pattern</td>
+<td>value</td>
+<td>空字符串</td>
+<td>调用服务名称，和name属性相同，如果项目使用了 <code>Ribbon</code>，<code>name</code>属性会作为微服务的名称，用于服务发现；</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align:left">2.抽象工厂模式</td>
-<td style="text-align:left">Abstract Factory Pattern</td>
+<td>serviceId</td>
+<td>空字符串</td>
+<td>服务id，作用和name属性相同</td>
+<td>已过期</td>
 </tr>
 <tr>
-<td style="text-align:left">3.建造者模式</td>
-<td style="text-align:left">Builder Pattern</td>
+<td>name</td>
+<td>空字符串</td>
+<td>调用服务名称，和value属性相同，如果项目使用了 <code>Ribbon</code>，<code>name</code>属性会作为微服务的名称，用于服务发现；</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align:left">4.原型模式</td>
-<td style="text-align:left">Prototype Pattern</td>
+<td>url</td>
+<td>空字符串</td>
+<td>url一般用于调试，可以手动指定@FeignClient调用的地址</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align:left">5.单例模式</td>
-<td style="text-align:left">Singleton Pattern</td>
+<td>decode404</td>
+<td>false</td>
+<td>配置响应状态码为404时是否应该抛出FeignExceptions</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align:left">6.适配器模式</td>
-<td style="text-align:left">Adapter Pattern</td>
+<td>configuration</td>
+<td>{}</td>
+<td>Feign配置类，可以自定义 Feign的 Encoder、Decoder、LogLevel、Contract；</td>
+<td>参考FeignClientsConfiguration</td>
 </tr>
 <tr>
-<td style="text-align:left">7.桥梁模式/桥接模式</td>
-<td style="text-align:left">Bridge Pattern</td>
+<td>fallback</td>
+<td>void.class</td>
+<td>定义容错的处理类，当调用远程接口失败或超时时，会调用对应接口的容错逻辑，fallback指定的类必须实现@FeignClient标记的接口</td>
+<td>底层依赖hystrix，启动类要加上@EnableHystrix</td>
 </tr>
 <tr>
-<td style="text-align:left">8.组合模式</td>
-<td style="text-align:left">Composite Pattern</td>
+<td>fallbackFactory</td>
+<td>void.class</td>
+<td>工厂类，用于生成fallback类示例，通过这个属性我们可以实现每个接口通用的容错逻辑，减少重复的代码</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align:left">9.装饰模式</td>
-<td style="text-align:left">Decorator Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">10.门面模式/外观模式</td>
-<td style="text-align:left">Facade Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">11.享元模式</td>
-<td style="text-align:left">Flyweight Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">12.代理模式</td>
-<td style="text-align:left">Proxy pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">13.责任链模式</td>
-<td style="text-align:left">Chain of Responsibility Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">14.命令模式</td>
-<td style="text-align:left">Command Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">15.解释器模式</td>
-<td style="text-align:left">Interpreter Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">16.迭代器模式</td>
-<td style="text-align:left">Iterator Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">17.中介者模式</td>
-<td style="text-align:left">Mediator Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">18.备忘录模式</td>
-<td style="text-align:left">Memento Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">19.观察者模式</td>
-<td style="text-align:left">Observer Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">20状态模式</td>
-<td style="text-align:left">State Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">21.策略模式</td>
-<td style="text-align:left">Strategy Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">22.模板方法模式</td>
-<td style="text-align:left">Template Method Pattern</td>
-</tr>
-<tr>
-<td style="text-align:left">23.访问者模式</td>
-<td style="text-align:left">Visitor Pattern</td>
+<td>path</td>
+<td>空字符串</td>
+<td>自动给所有方法的requestMapping前加上前缀，类似与controller类上的requestMapping</td>
 </tr>
 </tbody>
 </table>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://www.runoob.com/design-pattern/design-pattern-intro.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/design-pattern-intro.html</a></li>
-</ul>
+<p>然后，我们便可以配置对应的属性，这里我们只是用来实现类似于 HTTP Client 的功能，所以只是简单配置了 <code>url</code> 和 <code>path</code> 这些属性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"badGuy"</span>, url = <span class="string">"$&#123;bab.guy.url&#125;"</span>, path = <span class="string">"api"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BadGuyFeignClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 随机获取一句甜言蜜语</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"SweetNothings"</span>)</span><br><span class="line">    <span class="function">String <span class="title">getSweetNothings</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取 count 条甜言蜜语</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> count 获取甜言蜜语条数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Json 格式的结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"SweetNothings/&#123;count&#125;/Serialization/Json"</span>)</span><br><span class="line">    ReturnResult&lt;List&lt;String&gt;&gt; getSweetNothingsJsonByCount(<span class="meta">@PathVariable</span>(<span class="string">"count"</span>) Integer count);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>声明为 <code>FeignClient</code> 之后，我们便可以在代码中使用 <code>@Resource</code> 或者 <code>@Autowire</code> 进行注入使用了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BadServiceImpl</span> <span class="keyword">implements</span> <span class="title">BadGuyService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> BadGuyFeignClient badGuyFeignClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getQuotations</span><span class="params">(Integer count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (count == <span class="keyword">null</span> || count &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            String singleQuotation = badGuyFeignClient.getSweetNothings();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;String&gt;() &#123;&#123;</span><br><span class="line">                add(singleQuotation);</span><br><span class="line">            &#125;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> badGuyFeignClient.getSweetNothingsJsonByCount(count).getReturnObj();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后 <code>Controller</code> 中是这么写的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Log</span>4j2</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/api/badGuy"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BadGuyController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> BadGuyService badGuyService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(&#123;<span class="string">"quotations"</span>, <span class="string">"quotations/&#123;count&#125;"</span>&#125;)</span><br><span class="line">    <span class="keyword">public</span> PlainResult&lt;List&lt;String&gt;&gt; getBadGuyQuotations(</span><br><span class="line">            <span class="meta">@PathVariable</span>(value = <span class="string">"count"</span>, required = <span class="keyword">false</span>) Integer count</span><br><span class="line">    ) &#123;</span><br><span class="line">        PlainResult&lt;List&lt;String&gt;&gt; result = <span class="keyword">new</span> PlainResult&lt;&gt;();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            List&lt;String&gt; resultStrings = badGuyService.getQuotations(count);</span><br><span class="line">            result.setData(resultStrings);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">"Failed to get bad guy quotations."</span>, e);</span><br><span class="line">            result.setErrorMessage(<span class="string">"error"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动项目之后，我们可以访问 </p>
+<p><a href="http://localhost:8080/api/badGuy/quotations" target="_blank" rel="noopener">http://localhost:8080/api/badGuy/quotations</a></p>
+<p>或者 </p>
+<p><a href="http://localhost:8080/api/badGuy/quotations/10" target="_blank" rel="noopener">http://localhost:8080/api/badGuy/quotations/10</a></p>
+<p>后面跟数字，即可得到对应条目数的结果</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"success"</span>:<span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"code"</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="attr">"message"</span>:<span class="string">"successful"</span>,</span><br><span class="line">    <span class="attr">"data"</span>:[</span><br><span class="line">        <span class="string">"我从未拥有过你一秒钟，心里却失去过你千万次。"</span>,</span><br><span class="line">        <span class="string">"现在几点了？是我们幸福的起点。"</span>,</span><br><span class="line">        <span class="string">"我不很快乐，因为你不很爱我。但所谓不很快乐者，并不等于不快乐，正如不很爱我不等于不爱我一样。"</span>,</span><br><span class="line">        <span class="string">"我看你挺笨的吹口哨都不会，要不要我嘴对嘴教你。"</span>,</span><br><span class="line">        <span class="string">"我玩了六年英雄联盟，后来才发现你才是我的英雄。"</span>,</span><br><span class="line">        <span class="string">"这里一切都丑的，风、雨、太阳，都丑，人也丑，我也丑得很。只有你是青天一样可羡。"</span>,</span><br><span class="line">        <span class="string">"他对她说，他依然爱她，和过去一样，至死不渝"</span>,</span><br><span class="line">        <span class="string">"你猜我喜欢什么制服” “被你制服”"</span>,</span><br><span class="line">        <span class="string">"人说红颜薄命，你做我的红颜，我愿为你薄命。"</span>,</span><br><span class="line">        <span class="string">"有时候我想比你晚出生一百年，你的一生被拍成一部电影，而我一生只做一件事：独自坐在房间，面对墙上的荧光屏，用我的一生把你的一生看完。"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整项目源码请参考：<a href="https://github.com/feifuzeng/springboot-middleware-demos/tree/master/springboot-middleware-feign" target="_blank" rel="noopener"><strong>springboot-middleware-feign</strong></a></p>
+<h2 id="FeignClient与-HttpClient的区别是什么？"><a href="#FeignClient与-HttpClient的区别是什么？" class="headerlink" title="FeignClient与 HttpClient的区别是什么？"></a><code>FeignClient</code>与 <code>HttpClient</code>的区别是什么？</h2><p><code>HttpClient</code>与之同样实现的还有 <code>Okhttp</code>、<code>Httpurlconnection</code>、<code>RestTemplate</code>等等，其 URL 参数是以编程方式构造的，数据被发送到其他服务。在更复杂的情况下，我们将不得不<code>RestTemplate</code>深入到更低级别的 <code>API</code>提供的甚至是 <code>API</code>的细节。</p>
+<p><code>FeignClient</code>则更像是在基于 REST 的服务调用上提供更高级别的抽象，在客户端编写<strong>声明式</strong>REST 服务接口，并使用这些接口来编写客户端程序。开发人员不用担心这个接口的实现。这将在运行时由 Spring 动态配置。通过这种声明性的方法，开发人员不需要深入了解由 HTTP 提供的 HTTP 级别 <code>API</code>的细节的<code>RestTemplate</code>。</p>
+<p>总的来讲，<code>FeignClient</code>更具抽象性，也更简单、灵活。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文简单介绍了如何使用 <code>Spring Cloud Feign</code>组件来替代 <code>HttpClient</code>来实现简单调用第三方服务的方法，除了集成 <code>Feign</code>组件，我们也可以在项目中加入 <code>Ribbon</code>用于服务发现，加入 <code>Hystrix</code>用于服务熔断等等，这样就会完整地构建出一个基本服务了。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://juejin.im/post/5daf10836fb9a04e054da1b5" target="_blank" rel="noopener">https://juejin.im/post/5daf10836fb9a04e054da1b5</a></li>
+<li><a href="https://blog.csdn.net/weixin_38809962/article/details/80354878" target="_blank" rel="noopener">https://blog.csdn.net/weixin_38809962/article/details/80354878</a></li>
+<li><a href="https://www.jianshu.com/p/8bca50cb11d8" target="_blank" rel="noopener">https://www.jianshu.com/p/8bca50cb11d8</a></li>
+</ol>
 
       
     </div>
@@ -610,12 +587,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
-          
-        </div>
-      
 
       
       
@@ -625,8 +596,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/10/工具类🔧-Fastjson高级使用/" rel="next" title="工具类🔧-Fastjson进阶使用">
-                <i class="fa fa-chevron-left"></i> 工具类🔧-Fastjson进阶使用
+              <a href="/2019/09/26/云计算的三种服务模式：IaaS，PaaS和SaaS/" rel="next" title="云计算的三种服务模式：IaaS，PaaS和SaaS">
+                <i class="fa fa-chevron-left"></i> 云计算的三种服务模式：IaaS，PaaS和SaaS
               </a>
             
           </div>
@@ -634,10 +605,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/11/设计模式之-职责链模式/" rel="prev" title="设计模式之-职责链模式">
-                设计模式之-职责链模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -912,7 +879,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">2.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中英文对照"><span class="nav-number">3.</span> <span class="nav-text">中英文对照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Feign"><span class="nav-number">2.</span> <span class="nav-text">什么是Feign?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#首先找一个AIP"><span class="nav-number">3.</span> <span class="nav-text">首先找一个AIP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何调用第三方服务？"><span class="nav-number">4.</span> <span class="nav-text">如何调用第三方服务？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FeignClient与-HttpClient的区别是什么？"><span class="nav-number">5.</span> <span class="nav-text">FeignClient与 HttpClient的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
